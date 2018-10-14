@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "TOWebContentViewController.h"
 
 @interface ViewController ()
 
@@ -19,5 +20,15 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 
+- (IBAction)didTapButton:(id)sender
+{
+    // Get resources folder URL
+    NSURL *resources = [[NSBundle mainBundle] resourceURL];
+    NSURL *baseURL = [resources URLByAppendingPathComponent:@"HTML"];
+    NSURL *fileURL = [baseURL URLByAppendingPathComponent:@"about.html"];
+
+    TOWebContentViewController *webContentController = [[TOWebContentViewController alloc] initWithFileURL:fileURL baseURL:baseURL];
+    [self.navigationController pushViewController:webContentController animated:YES];
+}
 
 @end

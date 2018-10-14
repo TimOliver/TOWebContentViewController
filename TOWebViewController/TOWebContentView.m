@@ -1,17 +1,14 @@
 //
-//  _TOWebContentView.h
+//  _TOWebContentView.m
 //  TOWebContentViewControllerExample
 //
 //  Created by Tim Oliver on 14/10/18.
 //  Copyright © 2018 Tim Oliver. All rights reserved.
 //
 
-#import <WebKit/WebKit.h>
+#import "TOWebContentView.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation TOWebContentView
 
-@interface _TOWebContentView : WKWebView
 
 @end
-
-NS_ASSUME_NONNULL_END

@@ -1,0 +1,228 @@
+@charset "UTF-8";
+/* iComics */
+
+html {
+   background-color: #3a3a3a;
+}
+
+* {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+}
+
+body {
+	background-color: #3a3a3a;
+	color: #fff;
+	font-family: -apple-system, "Helvetica Neue", "Helvetica", Arial, sans-serif;
+	font-size: 11pt;
+    margin: 20px auto 10px;;
+	line-height: 150%;
+    -webkit-text-size-adjust: none;
+    word-wrap: break-word;
+    padding: 0 20px;
+    max-width: 350px;
+}
+
+h2 {
+    margin: 25px 0 25px;
+    font-weight: 200;
+    font-size: 21pt;
+    text-align: center;
+}
+
+h3 {
+    font-size: 18px;
+    margin: 25px 0 0px;
+    line-height: 100%;
+    font-weight: normal;
+    text-align: center;
+}
+
+h4 {
+    line-height: 100%;
+    margin: 5px 0 15px;
+    font-size: 12px;
+    font-weight: normal;
+    text-align: center;
+}
+
+a
+{
+	color: #fff;
+    text-shadow: none !important;
+}
+
+hr {
+	height: 1px;
+	color: #fff;
+	border: 0 none;
+	background-color: #fff;
+	margin: 0px 0 0px;
+}
+
+img {
+    margin: 10px auto;
+	text-align: center;
+	display: block;
+	border: 0 none;   
+}
+
+ul {
+    margin-bottom: 25px;
+}
+
+.clear { clear: both; }
+
+.center {
+	text-align: center;	
+}
+
+#icomics_about_logo {
+    width: 162px;
+    height: 170px;
+    position: relative;
+    margin: 50px auto 0px;
+    background-image: url(../images/iComicsAboutLogo.png);
+    background-size: 162px 170px;
+    border: 0 none;
+}
+
+#icomics_title {
+    text-decoration: none !important;
+    color: #fff;
+    display: block;
+    text-align: center;
+    font-size: 35pt;
+    font-weight: 200;
+    margin: 0px auto 0px;
+    line-height: 100%;
+}
+
+#icomics_subtitle {
+    text-decoration: none !important;
+    color: #fff;
+    display: block;
+    text-align: center;
+    font-size: 22pt;
+    font-weight: 200;
+    margin-bottom: 40px auto 120px;
+    line-height: 100%;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+    #icomics_about_logo
+    {
+        background-image: url(../images/iComicsAboutLogo@2x.png);
+    }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 3) {
+    #icomics_about_logo
+    {
+        background-image: url(../images/iComicsAboutLogo@3x.png);
+    }
+}
+
+#icomics_logo {
+	margin: 10px auto 5px;
+	text-align: center;
+	display: block;
+	border: 0 none;
+    width: 67px; 
+    height: 56px;
+    background-image: url(../images/logo.png);
+}
+
+/* High Resolution (iPhone 4) */
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+
+	#icomics_logo
+	{
+	    background-image: url(../images/logo@2x.png);
+	    background-size: 67px 56px;
+	}
+ 
+}
+
+/* Social Media */
+#social_media {
+    list-style: none;
+    position: relative;
+    width: 249px;
+    margin: 30px auto 0;
+    height: 28px;
+    padding: 0;
+}
+
+#social_media li {
+    float: left;
+    width: 83px;
+    height: 28px;
+    text-align: center;
+}
+
+.social_media_icon {
+    display: block;
+    width: 28px;
+    height: 28px;
+    background-size: 28px 28px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.twitter {
+    width: 35px;
+    background-size: 35px 28px;
+    background-image: url(../images/TwitterIcon.png);
+}
+
+.instagram {
+    background-image: url(../images/InstagramIcon.png);
+}
+
+.facebook {
+    background-image: url(../images/FacebookIcon.png);
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+    .twitter { background-image: url(../images/TwitterIcon@2x.png); }
+    .instagram { background-image: url(../images/InstagramIcon@2x.png); }
+    .facebook { background-image: url(../images/FacebookIcon@2x.png); }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 3) {
+    .twitter { background-image: url(../images/TwitterIcon@3x.png); }
+    .instagram { background-image: url(../images/InstagramIcon@3x.png); }
+    .facebook { background-image: url(../images/FacebookIcon@3x.png); }
+}
+
+#shameless_plug {
+    text-align: center;
+    margin: 30px 0 30px;
+    font-size: 11pt;
+}
+
+.name_list {
+    width: 280px;
+    margin: 0 auto;
+    padding:0;
+    list-style: none;
+    margin-top: 10px;
+    display: block;
+}
+
+.name_list li {
+    display: block;
+    width: 139px;
+    float: left;
+    margin: 5px 0 5px 0;
+    text-align: left;
+}
+
+#copyright {
+    margin: 10px auto 0;
+    text-align:center;
+    font-size: 10pt;
+    color: #ddd;
+    line-height: 130%;
+}
