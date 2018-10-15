@@ -15,6 +15,7 @@
 		226A3D6521736D5700806B99 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 226A3D6321736D5700806B99 /* LaunchScreen.storyboard */; };
 		226A3D6821736D5700806B99 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 226A3D6721736D5700806B99 /* main.m */; };
 		226A3D742173789A00806B99 /* TOWebContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 226A3D732173789A00806B99 /* TOWebContentViewController.m */; };
+		228CA9E82174F447002B5209 /* TOWebContentViewController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 228CA9EA2174F447002B5209 /* TOWebContentViewController.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,18 @@
 		226A3D6721736D5700806B99 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		226A3D722173789A00806B99 /* TOWebContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOWebContentViewController.h; sourceTree = "<group>"; };
 		226A3D732173789A00806B99 /* TOWebContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOWebContentViewController.m; sourceTree = "<group>"; };
+		228CA9E92174F447002B5209 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/TOWebContentViewController.strings; sourceTree = "<group>"; };
+		228CA9EB2174F455002B5209 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TOWebContentViewController.strings; sourceTree = "<group>"; };
+		228CA9EC2174F45D002B5209 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/TOWebContentViewController.strings; sourceTree = "<group>"; };
+		228CA9ED2174F466002B5209 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/TOWebContentViewController.strings"; sourceTree = "<group>"; };
+		228CA9EE2174F46B002B5209 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/TOWebContentViewController.strings"; sourceTree = "<group>"; };
+		228CA9EF2174F470002B5209 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/TOWebContentViewController.strings; sourceTree = "<group>"; };
+		228CA9F02174F478002B5209 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/TOWebContentViewController.strings; sourceTree = "<group>"; };
+		228CA9F12174F480002B5209 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/TOWebContentViewController.strings; sourceTree = "<group>"; };
+		228CA9F32174F4A0002B5209 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/TOWebContentViewController.strings; sourceTree = "<group>"; };
+		228CA9F42174F4AB002B5209 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/TOWebContentViewController.strings; sourceTree = "<group>"; };
+		228CA9F52174F4B9002B5209 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/TOWebContentViewController.strings; sourceTree = "<group>"; };
+		228CA9F62174F4C3002B5209 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/TOWebContentViewController.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +96,7 @@
 			children = (
 				226A3D722173789A00806B99 /* TOWebContentViewController.h */,
 				226A3D732173789A00806B99 /* TOWebContentViewController.m */,
+				228CA9EA2174F447002B5209 /* TOWebContentViewController.strings */,
 			);
 			path = TOWebViewController;
 			sourceTree = "<group>";
@@ -128,6 +142,17 @@
 			knownRegions = (
 				en,
 				Base,
+				fr,
+				de,
+				"zh-Hans",
+				"zh-Hant",
+				ja,
+				es,
+				it,
+				nl,
+				ko,
+				ru,
+				sv,
 			);
 			mainGroup = 226A3D4C21736D5500806B99;
 			productRefGroup = 226A3D5621736D5500806B99 /* Products */;
@@ -147,6 +172,7 @@
 				226A3D6521736D5700806B99 /* LaunchScreen.storyboard in Resources */,
 				22299F4E217398A00037B185 /* HTML in Resources */,
 				226A3D6221736D5700806B99 /* Assets.xcassets in Resources */,
+				228CA9E82174F447002B5209 /* TOWebContentViewController.strings in Resources */,
 				226A3D6021736D5600806B99 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -184,6 +210,25 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		228CA9EA2174F447002B5209 /* TOWebContentViewController.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				228CA9E92174F447002B5209 /* en */,
+				228CA9EB2174F455002B5209 /* fr */,
+				228CA9EC2174F45D002B5209 /* de */,
+				228CA9ED2174F466002B5209 /* zh-Hans */,
+				228CA9EE2174F46B002B5209 /* zh-Hant */,
+				228CA9EF2174F470002B5209 /* ja */,
+				228CA9F02174F478002B5209 /* es */,
+				228CA9F12174F480002B5209 /* it */,
+				228CA9F32174F4A0002B5209 /* nl */,
+				228CA9F42174F4AB002B5209 /* ko */,
+				228CA9F52174F4B9002B5209 /* ru */,
+				228CA9F62174F4C3002B5209 /* sv */,
+			);
+			name = TOWebContentViewController.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -191,6 +236,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -250,6 +296,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
