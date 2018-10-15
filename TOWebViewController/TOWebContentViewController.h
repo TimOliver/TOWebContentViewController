@@ -22,6 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 /** For local URLs, this is the folder that is used for relative file path references in the HTML code. */
 @property (nonatomic, strong, readonly) NSURL *baseURL;
 
+/** Before any web content is displayed, this is the default background color of the view controller */
+@property (nonatomic, strong, nullable) UIColor *defaultBackgroundColor;
+
+/** If desired, set the title of the view controller to the title from the HTML content. (Default iS NO) */
+@property (nonatomic, assign) BOOL setsTitleFromContent;
+
 - (instancetype)initWithURL:(NSURL *)URL;
 - (instancetype)initWithFileURL:(NSURL *)fileURL baseURL:(NSURL *)baseURL;
 
