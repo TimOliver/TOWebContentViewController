@@ -7,12 +7,13 @@
 //
 
 #import "TOWebContentViewController.h"
+#import "TOWebContentView.h"
 #import <SafariServices/SFSafariViewController.h>
 
 @interface TOWebContentViewController () <WKNavigationDelegate, UIViewControllerTransitioningDelegate>
 
 // Views
-@property (nonatomic, strong, readwrite) WKWebView *webView;
+@property (nonatomic, strong, readwrite) TOWebContentView *webView;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 
 // Content Information
@@ -57,7 +58,7 @@
     self.view.backgroundColor = self.defaultBackgroundColor ?: [UIColor whiteColor];
 
     // Set up the webview
-    self.webView = [[WKWebView alloc] initWithFrame:self.view.bounds];
+    self.webView = [[TOWebContentView alloc] initWithFrame:self.view.bounds];
     self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.webView.navigationDelegate = self;
     [self.view addSubview:self.webView];
@@ -171,7 +172,7 @@
 
     // Show an SFSafariViewController for web pages
     if ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]) {
-        [self presentWebViewControllerForURL:URL];
+        [self presentWebViewControllerForURL:URL navigationAction:navigationAction];
     }
     else if ([scheme isEqualToString:@"twitter"]) {
         [self presentSocialMediaAccountWithHost:@"twitter.com" userHandle:URL.host];
@@ -184,17 +185,47 @@
     }
 }
 
-- (void)presentWebViewControllerForURL:(NSURL *)URL
+- (void)presentWebViewControllerForURL:(NSURL *)URL navigationAction:(WKNavigationAction *)navigationAction
 {
-    SFSafariViewController *safariController = [[SFSafariViewController alloc] initWithURL:URL];
-    safariController.transitioningDelegate = self; // Don't push like a navigation controller
-    [self presentViewController:safariController animated:YES completion:nil];
+    CGPoint tapPoint = [(TOWebContentView *)self.webView lastTappedPoint];
+    CGRect tapRect = (CGRect){tapPoint, {1,1}};
+
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:URL.absoluteString message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    alertController.modalPresentationStyle = UIModalPresentationPopover;
+
+    // Action for displaying the address in a safari view controller
+    id showActionHandler = ^(UIAlertAction *action) {
+        SFSafariViewController *safariController = [[SFSafariViewController alloc] initWithURL:URL];
+        safariController.transitioningDelegate = self; // Don't push like a navigation controller
+        [self presentViewController:safariController animated:YES completion:nil];
+    };
+    UIAlertAction *showAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"TOWebContentViewController.Share.OpenIn", @"")
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:showActionHandler];
+    [alertController addAction:showAction];
+
+    // Action for copying the URL
+    id copyLinkHandler = ^(UIAlertAction *action) {
+
+    };
+    UIAlertAction *copyLinkAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"TOWebContentViewController.Share.CopyLink", @"")
+                                                             style:UIAlertActionStyleDefault
+                                                           handler:copyLinkHandler];
+    [alertController addAction:copyLinkAction];
+
+
+
+
+    UIPopoverPresentationController *popoverController = self.popoverPresentationController;
+    popoverController.sourceRect = tapRect;
+    popoverController.sourceView = self.webView;
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)presentSocialMediaAccountWithHost:(NSString *)host userHandle:(NSString *)handle
 {
-    NSString *URLString = [NSString stringWithFormat:@"https://%@/%@", host, handle];
-    [self presentWebViewControllerForURL:[NSURL URLWithString:URLString]];
+//    NSString *URLString = [NSString stringWithFormat:@"https://%@/%@", host, handle];
+//    [self presentWebViewControllerForURL:[NSURL URLWithString:URLString]];
 }
 
 #pragma mark - Accessors -

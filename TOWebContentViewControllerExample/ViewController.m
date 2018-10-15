@@ -32,7 +32,7 @@
 
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:webContentController];
     navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    //navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     navigationController.view.tintColor = [UIColor colorWithRed:91.0f/255.0f green:158.0f/255.0f blue:1.0f alpha:1.0f];
     [self presentViewController:navigationController animated:YES completion:nil];
 
