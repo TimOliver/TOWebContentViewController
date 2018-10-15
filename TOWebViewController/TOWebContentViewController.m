@@ -7,20 +7,21 @@
 //
 
 #import "TOWebContentViewController.h"
+#import <SafariServices/SFSafariViewController.h>
 
-@interface TOWebContentViewController () <WKNavigationDelegate>
+@interface TOWebContentViewController () <WKNavigationDelegate, UIViewControllerTransitioningDelegate>
 
 // Views
 @property (nonatomic, strong, readwrite) WKWebView *webView;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 
 // Content Information
-@property (nonatomic, strong, readwrite) NSURL *URL;
-@property (nonatomic, strong, readwrite) NSURL *baseURL;
+@property (nonatomic, strong, readwrite) NSURL *URL;     // The original URL shown
+@property (nonatomic, strong, readwrite) NSURL *baseURL; // Local files base URL
 
-// State
-@property (nonatomic, assign) BOOL isLoaded;
-@property (nonatomic, assign) BOOL isLocalFile;
+// Internal state Tracking
+@property (nonatomic, assign) BOOL isLoaded;    // The initial URL has been loaded
+@property (nonatomic, assign) BOOL isLocalFile; // If the supplied URL was a local file
 
 @end
 
@@ -127,6 +128,7 @@
         [backgroundColor getWhite:&colorBrightness alpha:NULL];
     }
 
+    // If the brightness is less than half, keep the indicator white, else make it gray
     self.activityIndicator.color = (colorBrightness < 0.5f) ? nil : [UIColor grayColor];
 }
 
@@ -138,7 +140,12 @@
         return;
     }
 
-    decisionHandler(WKNavigationActionPolicyAllow);
+    // Perform any possible actions on the navigation action
+    [self performActionForNavigationAction:navigationAction];
+
+    // Always deny the web view progressing away from its initial page
+    // (Other web links should be presented in a proper web view controller)
+    decisionHandler(WKNavigationActionPolicyCancel);
 }
 
 - (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation
@@ -151,6 +158,43 @@
             [self.activityIndicator stopAnimating];
         }];
     }
+}
+
+#pragma mark - URL Handling -
+- (void)performActionForNavigationAction:(WKNavigationAction *)navigationAction
+{
+    NSURL *URL = navigationAction.request.URL;
+    if (URL == nil) { return; }
+
+    // Depend on the scheme, perform a variety of default actions
+    NSString *scheme = URL.scheme.lowercaseString;
+
+    // Show an SFSafariViewController for web pages
+    if ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]) {
+        [self presentWebViewControllerForURL:URL];
+    }
+    else if ([scheme isEqualToString:@"twitter"]) {
+        [self presentSocialMediaAccountWithHost:@"twitter.com" userHandle:URL.host];
+    }
+    else if ([scheme isEqualToString:@"facebook"]) {
+        [self presentSocialMediaAccountWithHost:@"facebook.com" userHandle:URL.host];
+    }
+    else if ([scheme isEqualToString:@"instagram"]) {
+        [self presentSocialMediaAccountWithHost:@"instagram.com" userHandle:URL.host];
+    }
+}
+
+- (void)presentWebViewControllerForURL:(NSURL *)URL
+{
+    SFSafariViewController *safariController = [[SFSafariViewController alloc] initWithURL:URL];
+    safariController.transitioningDelegate = self; // Don't push like a navigation controller
+    [self presentViewController:safariController animated:YES completion:nil];
+}
+
+- (void)presentSocialMediaAccountWithHost:(NSString *)host userHandle:(NSString *)handle
+{
+    NSString *URLString = [NSString stringWithFormat:@"https://%@/%@", host, handle];
+    [self presentWebViewControllerForURL:[NSURL URLWithString:URLString]];
 }
 
 #pragma mark - Accessors -
