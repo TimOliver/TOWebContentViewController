@@ -33,7 +33,7 @@
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:webContentController];
     navigationController.navigationBar.barStyle = UIBarStyleBlack;
     navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-    navigationController.view.tintColor = [UIColor colorWithRed:44.0f/255.0f green:128.0f/255.0f blue:1.0f alpha:1.0f];
+    navigationController.view.tintColor = [UIColor colorWithRed:91.0f/255.0f green:158.0f/255.0f blue:1.0f alpha:1.0f];
     [self presentViewController:navigationController animated:YES completion:nil];
 
     webContentController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(webContentViewControllerDone:)];
