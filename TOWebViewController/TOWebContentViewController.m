@@ -7,13 +7,14 @@
 //
 
 #import "TOWebContentViewController.h"
-#import "TOWebContentView.h"
 #import <SafariServices/SFSafariViewController.h>
 
-@interface TOWebContentViewController () <WKNavigationDelegate, UIViewControllerTransitioningDelegate>
+@interface TOWebContentViewController () <WKNavigationDelegate,
+                                            UIGestureRecognizerDelegate,
+                                            UIViewControllerTransitioningDelegate>
 
 // Views
-@property (nonatomic, strong, readwrite) TOWebContentView *webView;
+@property (nonatomic, strong, readwrite) WKWebView *webView;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 
 // Content Information
@@ -23,6 +24,7 @@
 // Internal state Tracking
 @property (nonatomic, assign) BOOL isLoaded;    // The initial URL has been loaded
 @property (nonatomic, assign) BOOL isLocalFile; // If the supplied URL was a local file
+@property (nonatomic, assign) CGPoint lastTappedPoint;
 
 @end
 
@@ -58,10 +60,14 @@
     self.view.backgroundColor = self.defaultBackgroundColor ?: [UIColor whiteColor];
 
     // Set up the webview
-    self.webView = [[TOWebContentView alloc] initWithFrame:self.view.bounds];
+    self.webView = [[WKWebView alloc] initWithFrame:self.view.bounds];
     self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.webView.navigationDelegate = self;
     [self.view addSubview:self.webView];
+
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized:)];
+    tapRecognizer.delegate = self;
+    [self.webView.scrollView addGestureRecognizer:tapRecognizer];
 
     // Add the observer for the title if it was set before we were presented
     if (self.setsTitleFromContent) {
@@ -187,7 +193,7 @@
 
 - (void)presentWebViewControllerForURL:(NSURL *)URL navigationAction:(WKNavigationAction *)navigationAction
 {
-    CGPoint tapPoint = [(TOWebContentView *)self.webView lastTappedPoint];
+    CGPoint tapPoint = self.lastTappedPoint;
     CGRect tapRect = (CGRect){tapPoint, {1,1}};
 
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:URL.absoluteString message:nil preferredStyle:UIAlertControllerStyleActionSheet];
@@ -216,9 +222,10 @@
 
 
 
-    UIPopoverPresentationController *popoverController = self.popoverPresentationController;
+    UIPopoverPresentationController *popoverController = alertController.popoverPresentationController;
     popoverController.sourceRect = tapRect;
-    popoverController.sourceView = self.webView;
+    popoverController.sourceView = self.view;
+    popoverController.permittedArrowDirections = UIPopoverArrowDirectionDown;
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
@@ -226,6 +233,17 @@
 {
 //    NSString *URLString = [NSString stringWithFormat:@"https://%@/%@", host, handle];
 //    [self presentWebViewControllerForURL:[NSURL URLWithString:URLString]];
+}
+
+#pragma mark - Gesture Recognizer -
+- (void)tapRecognized:(UIGestureRecognizer *)recognizer
+{
+    self.lastTappedPoint = [recognizer locationInView:self.view];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
 }
 
 #pragma mark - Accessors -
