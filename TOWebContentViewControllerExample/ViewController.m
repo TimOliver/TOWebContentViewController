@@ -28,7 +28,20 @@
     NSURL *fileURL = [baseURL URLByAppendingPathComponent:@"about.html"];
 
     TOWebContentViewController *webContentController = [[TOWebContentViewController alloc] initWithFileURL:fileURL baseURL:baseURL];
-    [self.navigationController pushViewController:webContentController animated:YES];
+    webContentController.setsTitleFromContent = YES;
+
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:webContentController];
+    navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    navigationController.view.tintColor = [UIColor colorWithRed:44.0f/255.0f green:128.0f/255.0f blue:1.0f alpha:1.0f];
+    [self presentViewController:navigationController animated:YES completion:nil];
+
+    webContentController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(webContentViewControllerDone:)];
+}
+
+- (IBAction)webContentViewControllerDone:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
