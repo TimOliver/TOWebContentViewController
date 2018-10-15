@@ -15,7 +15,6 @@
 		226A3D6521736D5700806B99 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 226A3D6321736D5700806B99 /* LaunchScreen.storyboard */; };
 		226A3D6821736D5700806B99 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 226A3D6721736D5700806B99 /* main.m */; };
 		226A3D742173789A00806B99 /* TOWebContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 226A3D732173789A00806B99 /* TOWebContentViewController.m */; };
-		226A3D7721737E6800806B99 /* TOWebContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 226A3D7621737E6800806B99 /* TOWebContentView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,8 +31,6 @@
 		226A3D6721736D5700806B99 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		226A3D722173789A00806B99 /* TOWebContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOWebContentViewController.h; sourceTree = "<group>"; };
 		226A3D732173789A00806B99 /* TOWebContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOWebContentViewController.m; sourceTree = "<group>"; };
-		226A3D7521737E6800806B99 /* TOWebContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOWebContentView.h; sourceTree = "<group>"; };
-		226A3D7621737E6800806B99 /* TOWebContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOWebContentView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,8 +83,6 @@
 			children = (
 				226A3D722173789A00806B99 /* TOWebContentViewController.h */,
 				226A3D732173789A00806B99 /* TOWebContentViewController.m */,
-				226A3D7521737E6800806B99 /* TOWebContentView.h */,
-				226A3D7621737E6800806B99 /* TOWebContentView.m */,
 			);
 			path = TOWebViewController;
 			sourceTree = "<group>";
@@ -165,7 +160,6 @@
 			files = (
 				226A3D742173789A00806B99 /* TOWebContentViewController.m in Sources */,
 				226A3D5D21736D5600806B99 /* ViewController.m in Sources */,
-				226A3D7721737E6800806B99 /* TOWebContentView.m in Sources */,
 				226A3D6821736D5700806B99 /* main.m in Sources */,
 				226A3D5A21736D5600806B99 /* AppDelegate.m in Sources */,
 			);
