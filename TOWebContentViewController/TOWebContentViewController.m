@@ -268,6 +268,8 @@
 
 - (void)presentWebViewControllerForURL:(NSURL *)URL navigationAction:(WKNavigationAction *)navigationAction
 {
+    NSBundle *resourceBundle = self.resourceBundle;
+
     CGPoint tapPoint = self.lastTappedPoint;
     CGRect tapRect = (CGRect){tapPoint, {1,1}};
 
@@ -280,7 +282,9 @@
         safariController.transitioningDelegate = self; // Don't push like a navigation controller
         [self presentViewController:safariController animated:YES completion:nil];
     };
-    UIAlertAction *showAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"TOWebContentViewController.Share.OpenIn", @"")
+
+    NSString *title = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.OpenIn", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
+    UIAlertAction *showAction = [UIAlertAction actionWithTitle:title
                                                          style:UIAlertActionStyleDefault
                                                        handler:showActionHandler];
     [alertController addAction:showAction];
@@ -289,12 +293,14 @@
     id copyLinkHandler = ^(UIAlertAction *action) {
 
     };
-    UIAlertAction *copyLinkAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"TOWebContentViewController.Share.CopyLink", @"")
+    title = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.CopyLink", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
+    UIAlertAction *copyLinkAction = [UIAlertAction actionWithTitle:title
                                                              style:UIAlertActionStyleDefault
                                                            handler:copyLinkHandler];
     [alertController addAction:copyLinkAction];
 
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"TOWebContentViewController.Share.Cancel", @"")
+    title = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.Cancel", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:title
                                                            style:UIAlertActionStyleCancel
                                                          handler:nil];
     [alertController addAction:cancelAction];
@@ -350,6 +356,22 @@
     if (_setsTitleFromContent && self.webView) {
         [self.webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
     }
+}
+
+- (NSBundle *)resourceBundle
+{
+    NSBundle *resourceBundle = nil;
+
+    NSBundle *classBundle = [NSBundle bundleForClass:self.class];
+    NSURL *resourceBundleURL = [classBundle URLForResource:@"TOWebContentViewControllerBundle" withExtension:@"bundle"];
+    if (resourceBundleURL) {
+        resourceBundle = [[NSBundle alloc] initWithURL:resourceBundleURL];
+    }
+    else {
+        resourceBundle = classBundle;
+    }
+
+    return resourceBundle;
 }
 
 @end
