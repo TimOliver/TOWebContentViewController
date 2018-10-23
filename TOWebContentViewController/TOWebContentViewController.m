@@ -59,10 +59,15 @@
     // If set, copy the default background color to the view background
     self.view.backgroundColor = self.defaultBackgroundColor ?: [UIColor whiteColor];
 
+    WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
+    configuration.suppressesIncrementalRendering = YES;
+
     // Set up the webview
-    self.webView = [[WKWebView alloc] initWithFrame:self.view.bounds];
+    self.webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:configuration];
     self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.webView.navigationDelegate = self;
+    self.webView.opaque = NO;
+    self.webView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.webView];
 
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized:)];
@@ -81,9 +86,6 @@
     self.activityIndicator.center = self.view.center;
     self.activityIndicator.hidesWhenStopped = YES;
     [self.view insertSubview:self.activityIndicator atIndex:0];
-
-    // Depending on the background color, set the activity indicator color
-    [self updateActivityIndicatorForBackgroundColor];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -94,12 +96,20 @@
 
     // If a local file, load the HTML and pass it to the web view
     if (self.isLocalFile) {
-        NSString *fileData = [NSString stringWithContentsOfURL:self.URL encoding:NSUTF8StringEncoding error:nil];
-        [self.webView loadHTMLString:fileData baseURL:self.baseURL];
+
+        // Load the HTML from disk, and then pass it to the web view
+        @autoreleasepool {
+            NSString *fileData = [NSString stringWithContentsOfURL:self.URL encoding:NSUTF8StringEncoding error:nil];
+            [self setBackgroundColorForHTMLString:fileData];
+            [self.webView loadHTMLString:fileData baseURL:self.baseURL];
+        }
 
         // Hide the web view and start showing a loading indicator
         self.webView.alpha = 0.0f;
-        [self.activityIndicator startAnimating];
+    }
+    else {
+        // Depending on the background color, set the activity indicator color
+        [self updateActivityIndicatorForBackgroundColor];
     }
 
     // Ensure the content isn't loaded again if this is triggered by returning from another view controller
@@ -109,7 +119,11 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
     if (object != self.webView) { return; }
-    self.title = self.webView.title;
+
+    // Update view controller title if we received a change alert
+    if ([keyPath isEqualToString:@"title"]) {
+        self.title = self.webView.title;
+    }
 }
 
 #pragma mark - View Management -
@@ -139,6 +153,65 @@
     self.activityIndicator.color = (colorBrightness < 0.5f) ? nil : [UIColor grayColor];
 }
 
+- (void)setBackgroundColorForHTMLString:(NSString *)html
+{
+    // Don't set the color if the controller has a color explicitly set
+    if (self.defaultBackgroundColor) { return; }
+
+    // Try and locate the attribute in the HTML string
+    NSString *colorAttribute = @"data-bgcolor";
+    NSRange startRange = [html rangeOfString:colorAttribute options:NSCaseInsensitiveSearch];
+    if (startRange.location == NSNotFound) { return; }
+
+    // Assuming the format is data-bgcolor="#ffffff", extract the hex data
+    startRange.location += startRange.length + 3; // skip the `="#` portion
+    char hexArray[6];
+    memset(hexArray, 0, 6);
+
+    for (NSInteger i = 0; i < 6; i++) {
+        char character = [html characterAtIndex:i+startRange.location];
+        if (character == '"') { break; }
+        hexArray[i] = character;
+    }
+
+    // Convert the string to a UIColor
+    NSString *hexString = [NSString stringWithCString:(const char *)hexArray encoding:NSUTF8StringEncoding];
+    UIColor *color = [self colorForHexString:hexString];
+    if (!color) { return; }
+
+    // Update the view with the new color
+    self.view.backgroundColor = color;
+    [self updateActivityIndicatorForBackgroundColor];
+}
+
+- (UIColor *)colorForHexString:(NSString *)hexString
+{
+    unsigned rgbValue = 0;
+    NSScanner *scanner = [NSScanner scannerWithString:hexString];
+    [scanner scanHexInt:&rgbValue];
+    return [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0
+                           green:((rgbValue & 0xFF00) >> 8)/255.0
+                            blue:(rgbValue & 0xFF)/255.0
+                           alpha:1.0];
+}
+
+- (void)transitionToWebView
+{
+    if (self.webView.alpha > FLT_EPSILON) { return; }
+
+    // Once the page has sufficiently loaded, fade in the web view
+    if (self.webView.alpha < FLT_EPSILON) {
+        [UIView animateWithDuration:0.4f
+                              delay:0.0f
+                            options:0
+                         animations:^{
+            self.webView.alpha = 1.0f;
+        } completion:^(BOOL finished) {
+            [self.activityIndicator stopAnimating];
+        }];
+    }
+}
+
 #pragma mark - Navigation Delegate -
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
@@ -157,14 +230,16 @@
 
 - (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation
 {
-    // Once the page starts loading, fade in the web view
-    if (self.webView.alpha < FLT_EPSILON) {
-        [UIView animateWithDuration:0.4f animations:^{
-            self.webView.alpha = 1.0f;
-        } completion:^(BOOL finished) {
-            [self.activityIndicator stopAnimating];
-        }];
-    }
+    // When loading remote sites, start showing the web view once the server has responded
+    if (self.isLocalFile) { return; }
+    [self transitionToWebView];
+}
+
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
+{
+    // When loading local files, wait until the who file has loaded before displaying
+    if (!self.isLocalFile) { return; }
+    [self transitionToWebView];
 }
 
 #pragma mark - URL Handling -
@@ -219,8 +294,10 @@
                                                            handler:copyLinkHandler];
     [alertController addAction:copyLinkAction];
 
-
-
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"TOWebContentViewController.Share.Cancel", @"")
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:nil];
+    [alertController addAction:cancelAction];
 
     UIPopoverPresentationController *popoverController = alertController.popoverPresentationController;
     popoverController.sourceRect = tapRect;
