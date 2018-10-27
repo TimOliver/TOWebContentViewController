@@ -20,7 +20,7 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 
-- (IBAction)didTapButton:(id)sender
+- (IBAction)didTapLocalButton:(id)sender
 {
     // Get resources folder URL
     NSURL *resources = [[NSBundle mainBundle] resourceURL];
@@ -37,6 +37,18 @@
     [self presentViewController:navigationController animated:YES completion:nil];
 
     webContentController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(webContentViewControllerDone:)];
+}
+
+- (IBAction)didTapOnlineButton:(id)sender
+{
+    TOWebContentViewController *webContentController = [[TOWebContentViewController alloc] initWithURL:[NSURL URLWithString:@"https://cbracco.github.io/html5-test-page/"]];
+    webContentController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(webContentViewControllerDone:)];
+    webContentController.setsTitleFromContent = YES;
+
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:webContentController];
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (IBAction)webContentViewControllerDone:(id)sender

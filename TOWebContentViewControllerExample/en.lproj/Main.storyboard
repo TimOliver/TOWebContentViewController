@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wxZ-4t-rIA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.30.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wxZ-4t-rIA">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.19.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -33,23 +34,49 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qhi-Ut-jXH">
-                                <rect key="frame" x="116" y="350.5" width="143" height="30"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hcg-Cu-Q5x">
+                                <rect key="frame" x="67.5" y="303" width="240" height="125"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qhi-Ut-jXH">
+                                        <rect key="frame" x="19.5" y="-3" width="201" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="Q0W-Nq-YEA"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="143" id="gbV-HI-nAl"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                        <state key="normal" title="About this App (Local)"/>
+                                        <connections>
+                                            <action selector="didTapLocalButton:" destination="blQ-ZS-X0S" eventType="touchUpInside" id="5jB-sl-bfX"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="65f-xH-XGA">
+                                        <rect key="frame" x="8.5" y="87" width="223" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="143" id="EQW-eh-Jub"/>
+                                            <constraint firstAttribute="height" constant="30" id="ws1-8e-Vaz"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                        <state key="normal" title="HTML Test Page (Online)"/>
+                                        <connections>
+                                            <action selector="didTapOnlineButton:" destination="blQ-ZS-X0S" eventType="touchUpInside" id="0wQ-UL-L7l"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="Q0W-Nq-YEA"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="143" id="gbV-HI-nAl"/>
+                                    <constraint firstAttribute="height" constant="125" id="Bmm-Wm-Gc9"/>
+                                    <constraint firstAttribute="width" constant="240" id="V6b-nQ-1E5"/>
+                                    <constraint firstItem="65f-xH-XGA" firstAttribute="centerX" secondItem="Hcg-Cu-Q5x" secondAttribute="centerX" id="XUu-0J-SX9"/>
+                                    <constraint firstItem="qhi-Ut-jXH" firstAttribute="centerX" secondItem="Hcg-Cu-Q5x" secondAttribute="centerX" id="kZx-2v-8BJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="65f-xH-XGA" secondAttribute="bottom" constant="8" id="v0u-wC-JhL"/>
+                                    <constraint firstItem="qhi-Ut-jXH" firstAttribute="top" secondItem="Hcg-Cu-Q5x" secondAttribute="top" constant="-3" id="xbS-OI-4MV"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
-                                <state key="normal" title="About this App"/>
-                                <connections>
-                                    <action selector="didTapButton:" destination="blQ-ZS-X0S" eventType="touchUpInside" id="83H-da-bkc"/>
-                                </connections>
-                            </button>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="qhi-Ut-jXH" firstAttribute="centerY" secondItem="XTO-0c-shm" secondAttribute="centerY" id="EEB-Ne-qK6"/>
-                            <constraint firstItem="qhi-Ut-jXH" firstAttribute="centerX" secondItem="XTO-0c-shm" secondAttribute="centerX" id="MX9-en-tru"/>
+                            <constraint firstItem="Hcg-Cu-Q5x" firstAttribute="centerX" secondItem="XTO-0c-shm" secondAttribute="centerX" id="t9y-ld-9ag"/>
+                            <constraint firstItem="Hcg-Cu-Q5x" firstAttribute="centerY" secondItem="XTO-0c-shm" secondAttribute="centerY" id="z49-lM-Swe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="XTO-0c-shm"/>
                     </view>
