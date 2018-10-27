@@ -122,11 +122,6 @@
             NSString *fileData = [NSString stringWithContentsOfURL:self.URL encoding:NSUTF8StringEncoding error:nil];
             [self setBackgroundColorForHTMLString:fileData];
             [self.webView loadHTMLString:fileData baseURL:self.baseURL];
-            [self.webView evaluateJavaScript:@"window.onload = function(){ \
-             window.webkit.messageHandlers.jsHandler.postMessage(\"DONE\"); \
-             };" completionHandler:^(id object, NSError *error) {
-                 NSLog(@"%@", error);
-             }];
         }
 
         // Hide the web view and start showing a loading indicator
