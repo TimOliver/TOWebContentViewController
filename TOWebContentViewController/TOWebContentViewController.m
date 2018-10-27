@@ -253,52 +253,115 @@
 
     // Show an SFSafariViewController for web pages
     if ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]) {
-        [self presentWebViewControllerForURL:URL navigationAction:navigationAction];
+        [self presentWebViewControllerForURL:URL];
     }
     else if ([scheme isEqualToString:@"twitter"]) {
-        [self presentSocialMediaAccountWithHost:@"twitter.com" userHandle:URL.host];
+        NSDictionary *twitterSchemes = @{ @"Tweetbot": @"tweetbot:///user_profile/%@",
+                                          @"Twitter": @"twitter://user?screen_name=%@" };
+        [self presentSocialMediaAccountWithHost:@"twitter.com" userHandle:URL.host appSchemes:twitterSchemes];
     }
     else if ([scheme isEqualToString:@"facebook"]) {
-        [self presentSocialMediaAccountWithHost:@"facebook.com" userHandle:URL.host];
+        NSDictionary *facebookScheme = @{ @"Facebook": @"fb://profile/%@" };
+        [self presentSocialMediaAccountWithHost:@"facebook.com" userHandle:URL.host appSchemes:facebookScheme];
     }
     else if ([scheme isEqualToString:@"instagram"]) {
-        [self presentSocialMediaAccountWithHost:@"instagram.com" userHandle:URL.host];
+        NSDictionary *instagramScheme = @{ @"Instagram": @"instagram://user?username=%@" };
+        [self presentSocialMediaAccountWithHost:@"instagram.com" userHandle:URL.host appSchemes:instagramScheme];
     }
 }
 
-- (void)presentWebViewControllerForURL:(NSURL *)URL navigationAction:(WKNavigationAction *)navigationAction
+- (void)presentWebViewControllerForURL:(NSURL *)URL
+{
+    SFSafariViewController *safariController = [[SFSafariViewController alloc] initWithURL:URL];
+    safariController.transitioningDelegate = self; // Don't push like a navigation controller
+    [self presentViewController:safariController animated:YES completion:nil];
+}
+
+- (void)presentSocialMediaAccountWithHost:(NSString *)host userHandle:(NSString *)handle appSchemes:(NSDictionary<NSString *, NSString *> *)schemes
+{
+    NSBundle *resourceBundle = self.resourceBundle;
+    NSString *URLString = [NSString stringWithFormat:@"https://%@/%@", host, handle];
+
+    NSMutableArray *actions = [NSMutableArray array];
+
+    // For each scheme, generate a title "Open In Scheme" and then set the URL to open that app
+    for (NSString *appName in schemes) {
+        // Generate the app specific URL link
+        NSString *actionURLString = [NSString stringWithFormat:schemes[appName], handle];
+        NSURL *actionURL = [NSURL URLWithString:actionURLString];
+
+        // Make sure we can open that URL
+        if ([UIApplication.sharedApplication canOpenURL:actionURL] == NO) { continue; }
+
+        // Generate the 'Open In' string
+        NSString *openInTemplate = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.OpenIn", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
+        NSString *openInTitle = [NSString stringWithFormat:openInTemplate, appName];
+
+
+
+        // Configure the action with both
+        UIAlertAction *appLinkAction = [UIAlertAction actionWithTitle:openInTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [UIApplication.sharedApplication openURL:[NSURL URLWithString:actionURLString]];
+        }];
+        [actions addObject:appLinkAction];
+    }
+
+    // Show the 'Open in Web' button
+    NSString *showPageTitle = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.ShowWebPage", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
+    UIAlertAction *openLinkAction = [UIAlertAction actionWithTitle:showPageTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self presentWebViewControllerForURL:[NSURL URLWithString:URLString]];
+    }];
+    [actions addObject:openLinkAction];
+
+    // Show the copy link action
+    NSString *copyLinkTitle = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.CopyLink", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
+    UIAlertAction *copyLinkAction = [UIAlertAction actionWithTitle:copyLinkTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        UIPasteboard.generalPasteboard.string = URLString;
+    }];
+    [actions addObject:copyLinkAction];
+
+    [self presentActionViewControllerWithTitle:URLString actions:actions];
+}
+
+- (void)presentActionViewControllerWithTitle:(NSString *)title actions:(NSArray<UIAlertAction *> *)actions
 {
     NSBundle *resourceBundle = self.resourceBundle;
 
     CGPoint tapPoint = self.lastTappedPoint;
     CGRect tapRect = (CGRect){tapPoint, {1,1}};
 
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:URL.absoluteString message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     alertController.modalPresentationStyle = UIModalPresentationPopover;
 
-    // Action for displaying the address in a safari view controller
-    id showActionHandler = ^(UIAlertAction *action) {
-        SFSafariViewController *safariController = [[SFSafariViewController alloc] initWithURL:URL];
-        safariController.transitioningDelegate = self; // Don't push like a navigation controller
-        [self presentViewController:safariController animated:YES completion:nil];
-    };
+//    // Action for displaying the address in a safari view controller
+//    id showActionHandler = ^(UIAlertAction *action) {
+//        SFSafariViewController *safariController = [[SFSafariViewController alloc] initWithURL:URL];
+//        safariController.transitioningDelegate = self; // Don't push like a navigation controller
+//        [self presentViewController:safariController animated:YES completion:nil];
+//    };
+//
+//    NSString *title = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.OpenIn", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
+//    UIAlertAction *showAction = [UIAlertAction actionWithTitle:title
+//                                                         style:UIAlertActionStyleDefault
+//                                                       handler:showActionHandler];
+//    [alertController addAction:showAction];
+//
+//    // Action for copying the URL
+//    id copyLinkHandler = ^(UIAlertAction *action) {
+//
+//    };
+//    title = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.CopyLink", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
+//    UIAlertAction *copyLinkAction = [UIAlertAction actionWithTitle:title
+//                                                             style:UIAlertActionStyleDefault
+//                                                           handler:copyLinkHandler];
+//    [alertController addAction:copyLinkAction];
 
-    NSString *title = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.OpenIn", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
-    UIAlertAction *showAction = [UIAlertAction actionWithTitle:title
-                                                         style:UIAlertActionStyleDefault
-                                                       handler:showActionHandler];
-    [alertController addAction:showAction];
+    // Add each action to the sheet
+    for (UIAlertAction *action in actions) {
+        [alertController addAction:action];
+    }
 
-    // Action for copying the URL
-    id copyLinkHandler = ^(UIAlertAction *action) {
-
-    };
-    title = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.CopyLink", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
-    UIAlertAction *copyLinkAction = [UIAlertAction actionWithTitle:title
-                                                             style:UIAlertActionStyleDefault
-                                                           handler:copyLinkHandler];
-    [alertController addAction:copyLinkAction];
-
+    // Add a cancel button for all cases
     title = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.Cancel", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:title
                                                            style:UIAlertActionStyleCancel
@@ -310,12 +373,6 @@
     popoverController.sourceView = self.view;
     popoverController.permittedArrowDirections = UIPopoverArrowDirectionDown;
     [self presentViewController:alertController animated:YES completion:nil];
-}
-
-- (void)presentSocialMediaAccountWithHost:(NSString *)host userHandle:(NSString *)handle
-{
-//    NSString *URLString = [NSString stringWithFormat:@"https://%@/%@", host, handle];
-//    [self presentWebViewControllerForURL:[NSURL URLWithString:URLString]];
 }
 
 #pragma mark - Gesture Recognizer -
