@@ -1,12 +1,29 @@
 //
 //  TOWebContentViewController.m
-//  TOWebContentViewControllerExample
 //
-//  Created by Tim Oliver on 14/10/18.
-//  Copyright © 2018 Tim Oliver. All rights reserved.
+//  Copyright 2018 Timothy Oliver. All rights reserved.
 //
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to
+//  deal in the Software without restriction, including without limitation the
+//  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+//  sell copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+//  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+//  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+//  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 
 #import "TOWebContentViewController.h"
+
+#import <WebKit/WebKit.h>
 #import <SafariServices/SFSafariViewController.h>
 
 @interface TOWebContentViewController () <WKNavigationDelegate,
@@ -15,6 +32,7 @@
 
 // Views
 @property (nonatomic, strong, readwrite) WKWebView *webView;
+@property (nonatomic, strong) UIView *loadingBackgroundView;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 
 // Content Information
@@ -58,12 +76,9 @@
 
     // If set, copy the default background color to the view background
     self.view.backgroundColor = self.defaultBackgroundColor ?: [UIColor whiteColor];
-
-    WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
-    configuration.suppressesIncrementalRendering = YES;
-
+    
     // Set up the webview
-    self.webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:configuration];
+    self.webView = [[WKWebView alloc] initWithFrame:self.view.bounds];
     self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.webView.navigationDelegate = self;
     self.webView.opaque = NO;
@@ -85,7 +100,13 @@
     UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
     self.activityIndicator.center = self.view.center;
     self.activityIndicator.hidesWhenStopped = YES;
-    [self.view insertSubview:self.activityIndicator atIndex:0];
+
+    // Set up the background view which will be overlaid on top of the web view
+    self.loadingBackgroundView = [[UIView alloc] initWithFrame:self.view.bounds];
+    self.loadingBackgroundView.backgroundColor = self.view.backgroundColor;
+    self.loadingBackgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.view addSubview:self.loadingBackgroundView];
+    [self.loadingBackgroundView addSubview:self.activityIndicator];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -96,20 +117,34 @@
 
     // If a local file, load the HTML and pass it to the web view
     if (self.isLocalFile) {
-
         // Load the HTML from disk, and then pass it to the web view
         @autoreleasepool {
             NSString *fileData = [NSString stringWithContentsOfURL:self.URL encoding:NSUTF8StringEncoding error:nil];
             [self setBackgroundColorForHTMLString:fileData];
             [self.webView loadHTMLString:fileData baseURL:self.baseURL];
+            [self.webView evaluateJavaScript:@"window.onload = function(){ \
+             window.webkit.messageHandlers.jsHandler.postMessage(\"DONE\"); \
+             };" completionHandler:^(id object, NSError *error) {
+                 NSLog(@"%@", error);
+             }];
         }
 
         // Hide the web view and start showing a loading indicator
-        self.webView.alpha = 0.0f;
+        self.loadingBackgroundView.alpha = 1.0f;
     }
     else {
         // Depending on the background color, set the activity indicator color
         [self updateActivityIndicatorForBackgroundColor];
+
+        // Load from the website
+        NSURLRequest *request = [NSURLRequest requestWithURL:self.URL];
+        [self.webView loadRequest:request];
+
+        // Hide the web view so it will fade in
+        self.loadingBackgroundView.alpha = 1.0f;
+
+        // Show the spinning icon
+        [self.activityIndicator startAnimating];
     }
 
     // Ensure the content isn't loaded again if this is triggered by returning from another view controller
@@ -179,8 +214,11 @@
     UIColor *color = [self colorForHexString:hexString];
     if (!color) { return; }
 
-    // Update the view with the new color
+    // Update the views with the new color
     self.view.backgroundColor = color;
+    self.loadingBackgroundView.backgroundColor = color;
+
+    // Refresh the loading indicator
     [self updateActivityIndicatorForBackgroundColor];
 }
 
@@ -197,19 +235,17 @@
 
 - (void)transitionToWebView
 {
-    if (self.webView.alpha > FLT_EPSILON) { return; }
+    if (self.loadingBackgroundView.alpha < FLT_EPSILON) { return; }
 
     // Once the page has sufficiently loaded, fade in the web view
-    if (self.webView.alpha < FLT_EPSILON) {
-        [UIView animateWithDuration:0.4f
-                              delay:0.0f
-                            options:0
-                         animations:^{
-            self.webView.alpha = 1.0f;
-        } completion:^(BOOL finished) {
-            [self.activityIndicator stopAnimating];
-        }];
-    }
+    [UIView animateWithDuration:0.4f
+                          delay:0.0f
+                        options:0
+                     animations:^{
+        self.loadingBackgroundView.alpha = 0.0f;
+    } completion:^(BOOL finished) {
+        [self.activityIndicator stopAnimating];
+    }];
 }
 
 #pragma mark - Navigation Delegate -
