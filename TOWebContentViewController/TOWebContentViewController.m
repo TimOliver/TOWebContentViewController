@@ -253,20 +253,20 @@
 
     // Show an SFSafariViewController for web pages
     if ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]) {
-        [self presentWebViewControllerForURL:URL];
+        [self presentWebSiteSheetWithURL:URL];
     }
     else if ([scheme isEqualToString:@"twitter"]) {
         NSDictionary *twitterSchemes = @{ @"Tweetbot": @"tweetbot:///user_profile/%@",
                                           @"Twitter": @"twitter://user?screen_name=%@" };
-        [self presentSocialMediaAccountWithHost:@"twitter.com" userHandle:URL.host appSchemes:twitterSchemes];
+        [self presentSocialMediaAccountSheetWithHost:@"twitter.com" userHandle:URL.host appSchemes:twitterSchemes];
     }
     else if ([scheme isEqualToString:@"facebook"]) {
         NSDictionary *facebookScheme = @{ @"Facebook": @"fb://profile/%@" };
-        [self presentSocialMediaAccountWithHost:@"facebook.com" userHandle:URL.host appSchemes:facebookScheme];
+        [self presentSocialMediaAccountSheetWithHost:@"facebook.com" userHandle:URL.host appSchemes:facebookScheme];
     }
     else if ([scheme isEqualToString:@"instagram"]) {
         NSDictionary *instagramScheme = @{ @"Instagram": @"instagram://user?username=%@" };
-        [self presentSocialMediaAccountWithHost:@"instagram.com" userHandle:URL.host appSchemes:instagramScheme];
+        [self presentSocialMediaAccountSheetWithHost:@"instagram.com" userHandle:URL.host appSchemes:instagramScheme];
     }
 }
 
@@ -277,7 +277,13 @@
     [self presentViewController:safariController animated:YES completion:nil];
 }
 
-- (void)presentSocialMediaAccountWithHost:(NSString *)host userHandle:(NSString *)handle appSchemes:(NSDictionary<NSString *, NSString *> *)schemes
+- (void)presentWebSiteSheetWithURL:(NSURL *)URL
+{
+    NSArray *actions = [self alertActionsForWebPageWithURL:URL];
+    [self presentActionViewControllerWithTitle:URL.absoluteString actions:actions];
+}
+
+- (void)presentSocialMediaAccountSheetWithHost:(NSString *)host userHandle:(NSString *)handle appSchemes:(NSDictionary<NSString *, NSString *> *)schemes
 {
     NSBundle *resourceBundle = self.resourceBundle;
     NSString *URLString = [NSString stringWithFormat:@"https://%@/%@", host, handle];
@@ -297,8 +303,6 @@
         NSString *openInTemplate = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.OpenIn", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
         NSString *openInTitle = [NSString stringWithFormat:openInTemplate, appName];
 
-
-
         // Configure the action with both
         UIAlertAction *appLinkAction = [UIAlertAction actionWithTitle:openInTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [UIApplication.sharedApplication openURL:[NSURL URLWithString:actionURLString]];
@@ -306,21 +310,33 @@
         [actions addObject:appLinkAction];
     }
 
+    // Add the "Open Web Page" and "Copy Link" actions
+    [actions addObjectsFromArray:[self alertActionsForWebPageWithURL:[NSURL URLWithString:URLString]]];
+
+    // Present the action sheet
+    [self presentActionViewControllerWithTitle:URLString actions:actions];
+}
+
+- (NSArray *)alertActionsForWebPageWithURL:(NSURL *)URL
+{
+    NSBundle *resourceBundle = self.resourceBundle;
+    NSMutableArray *actions = [NSMutableArray array];
+
     // Show the 'Open in Web' button
     NSString *showPageTitle = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.ShowWebPage", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
     UIAlertAction *openLinkAction = [UIAlertAction actionWithTitle:showPageTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self presentWebViewControllerForURL:[NSURL URLWithString:URLString]];
+        [self presentWebViewControllerForURL:URL];
     }];
     [actions addObject:openLinkAction];
 
     // Show the copy link action
     NSString *copyLinkTitle = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.CopyLink", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
     UIAlertAction *copyLinkAction = [UIAlertAction actionWithTitle:copyLinkTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        UIPasteboard.generalPasteboard.string = URLString;
+        UIPasteboard.generalPasteboard.string = URL.absoluteString;
     }];
     [actions addObject:copyLinkAction];
 
-    [self presentActionViewControllerWithTitle:URLString actions:actions];
+    return actions;
 }
 
 - (void)presentActionViewControllerWithTitle:(NSString *)title actions:(NSArray<UIAlertAction *> *)actions
@@ -332,29 +348,6 @@
 
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     alertController.modalPresentationStyle = UIModalPresentationPopover;
-
-//    // Action for displaying the address in a safari view controller
-//    id showActionHandler = ^(UIAlertAction *action) {
-//        SFSafariViewController *safariController = [[SFSafariViewController alloc] initWithURL:URL];
-//        safariController.transitioningDelegate = self; // Don't push like a navigation controller
-//        [self presentViewController:safariController animated:YES completion:nil];
-//    };
-//
-//    NSString *title = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.OpenIn", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
-//    UIAlertAction *showAction = [UIAlertAction actionWithTitle:title
-//                                                         style:UIAlertActionStyleDefault
-//                                                       handler:showActionHandler];
-//    [alertController addAction:showAction];
-//
-//    // Action for copying the URL
-//    id copyLinkHandler = ^(UIAlertAction *action) {
-//
-//    };
-//    title = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.CopyLink", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
-//    UIAlertAction *copyLinkAction = [UIAlertAction actionWithTitle:title
-//                                                             style:UIAlertActionStyleDefault
-//                                                           handler:copyLinkHandler];
-//    [alertController addAction:copyLinkAction];
 
     // Add each action to the sheet
     for (UIAlertAction *action in actions) {
