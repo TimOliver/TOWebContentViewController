@@ -53,11 +53,23 @@ a
 }
 
 hr {
-	height: 1px;
+	height: 1.0px;
 	color: #fff;
 	border: 0 none;
 	background-color: #fff;
 	margin: 0px 0 0px;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+    hr {
+        height: 0.5px;
+    }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 3) {
+    hr {
+        height: 0.3px;
+    }
 }
 
 img {
