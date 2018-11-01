@@ -66,7 +66,7 @@ NS_SWIFT_NAME(WebContentViewController)
 @property (nonatomic, assign) BOOL setsTitleFromContent;
 
 /** For local content, additional template tags that can be injected at load time.
- For example, setting { "AppTheme" : "Dark" } -> {{AppTheme}}
+ For example, setting {"AppTheme" : "Dark"} -> {{AppTheme}}
  */
 @property (nonatomic, copy, nullable) NSDictionary<NSString *, NSString *> *templateTags;
 
