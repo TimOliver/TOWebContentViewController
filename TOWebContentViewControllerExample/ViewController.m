@@ -28,6 +28,7 @@
     NSURL *fileURL = [baseURL URLByAppendingPathComponent:@"about.html"];
 
     TOWebContentViewController *webContentController = [[TOWebContentViewController alloc] initWithFileURL:fileURL baseURL:baseURL];
+    webContentController.templateTags = @{@"AppName" : @"iComics"};
     webContentController.setsTitleFromContent = YES;
 
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:webContentController];

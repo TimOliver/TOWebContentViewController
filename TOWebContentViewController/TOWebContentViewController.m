@@ -26,6 +26,10 @@
 #import <WebKit/WebKit.h>
 #import <SafariServices/SFSafariViewController.h>
 
+NSString * const kTOWebContentTemplateOpenTag = @"{{";
+NSString * const kTOWebContentTemplateCloseTag = @"}}";
+NSInteger const kTOWebContentMaximumTagLength = 36;
+
 @interface TOWebContentViewController () <WKNavigationDelegate,
                                             UIGestureRecognizerDelegate,
                                             UIViewControllerTransitioningDelegate>
@@ -43,6 +47,9 @@
 @property (nonatomic, assign) BOOL isLoaded;    // The initial URL has been loaded
 @property (nonatomic, assign) BOOL isLocalFile; // If the supplied URL was a local file
 @property (nonatomic, assign) CGPoint lastTappedPoint;
+
+// Native template properties
+@property (nonatomic, strong) NSMutableDictionary *defaultTemplateTags;
 
 @end
 
@@ -107,6 +114,23 @@
     self.loadingBackgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.loadingBackgroundView];
     [self.loadingBackgroundView addSubview:self.activityIndicator];
+
+    // Create a dictionary of default template values
+    [self createTemplateDictionary];
+}
+
+- (void)createTemplateDictionary
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyy";
+
+    // Load the default template tags
+    self.defaultTemplateTags = [NSMutableDictionary dictionary];
+    NSDictionary *mainBundleDictionary = NSBundle.mainBundle.infoDictionary;
+    self.defaultTemplateTags[@"AppName"] = mainBundleDictionary[(NSString *)kCFBundleNameKey];
+    self.defaultTemplateTags[@"AppVersion"] = mainBundleDictionary[@"CFBundleShortVersionString"];
+    self.defaultTemplateTags[@"AppBuildNumber"] = mainBundleDictionary[(NSString *)kCFBundleVersionKey];
+    self.defaultTemplateTags[@"AppCurrentYear"] = [formatter stringFromDate:[NSDate date]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -121,7 +145,9 @@
         @autoreleasepool {
             NSString *fileData = [NSString stringWithContentsOfURL:self.URL encoding:NSUTF8StringEncoding error:nil];
             [self setBackgroundColorForHTMLString:fileData];
-            [self.webView loadHTMLString:fileData baseURL:self.baseURL];
+            [self injectTagTemplateValuesIntoHTMLString:fileData completion:^(NSString *htmlData) {
+                [self.webView loadHTMLString:htmlData baseURL:self.baseURL];
+            }];
         }
 
         // Hide the web view and start showing a loading indicator
@@ -146,6 +172,73 @@
     _isLoaded = YES;
 }
 
+#pragma mark - Content Management -
+
+- (NSString *)HTMLStringWithTemplateTagsForHTMLString:(NSString *)htmlString
+{
+    NSMutableDictionary *templateTags = self.defaultTemplateTags.mutableCopy;
+    if (self.templateTags) { [templateTags addEntriesFromDictionary:self.templateTags]; }
+
+    NSRange searchRange = NSMakeRange(0, 0);
+    NSString *string = htmlString;
+
+    while (YES) {
+        // Sanity check the range of the search because it will trigger an exception out of bounds
+        searchRange.length = string.length - searchRange.location;
+
+        //Search for '{{'
+        NSRange tagRange = [string rangeOfString:kTOWebContentTemplateOpenTag options:NSLiteralSearch range:searchRange];
+        if (tagRange.location == NSNotFound) { break; } // If not found, break out of the loop
+
+        NSInteger startIndex = tagRange.location;
+
+        // Search for the ending '}}'
+        tagRange.length = kTOWebContentMaximumTagLength;
+        tagRange = [string rangeOfString:kTOWebContentTemplateCloseTag options:NSLiteralSearch range:tagRange];
+        if (tagRange.location == NSNotFound) {
+            @throw [NSException exceptionWithName:@"InconsistencyException"
+                                           reason:@"Closing }} tag not found. Tags must be <= 32 characters"
+                                         userInfo:nil];
+        }
+
+        // Extract the key name
+        NSRange tagNameRange = NSMakeRange(startIndex+2, tagRange.location - (startIndex+2));
+        NSString *tagName = [string substringWithRange:tagNameRange];
+
+        // See if it's a tag we support
+        NSString *tagValue = templateTags[tagName];
+        if (tagValue == nil) {
+            searchRange.location = tagRange.location + 2;
+            continue;
+        }
+
+        // If it is, perform a replacement
+        NSRange replaceRange = NSMakeRange(startIndex, (tagRange.location + 2) - startIndex);
+        string = [string stringByReplacingCharactersInRange:replaceRange withString:tagValue];
+
+        // Increment the search range for next iteration
+        searchRange.location = tagRange.location + 2;
+    }
+
+    return string;
+}
+
+- (void)injectTagTemplateValuesIntoHTMLString:(NSString *)html completion:(void (^)(NSString *))completion
+{
+    id block = ^{
+        NSString *htmlString = nil;
+        @autoreleasepool {
+            htmlString = [self HTMLStringWithTemplateTagsForHTMLString:html];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{ completion(htmlString); });
+        htmlString = nil;
+    };
+
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INTERACTIVE, 0), block);
+}
+
+#pragma mark - View Management -
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
     if (object != self.webView) { return; }
@@ -155,8 +248,6 @@
         self.title = self.webView.title;
     }
 }
-
-#pragma mark - View Management -
 
 - (void)updateActivityIndicatorForBackgroundColor
 {

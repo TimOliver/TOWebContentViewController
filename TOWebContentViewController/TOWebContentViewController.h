@@ -26,6 +26,28 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ `TOWebContentViewController` is a view controller for displaying arbitrary
+ web content, either from a local or online source in instances where spending
+ the time to implement an equivalent native UI wouldn't be worth it (ie open source
+ license acknowledgements, privacy policies)
+
+ ---
+
+ For local content, `TOWebContentController` also implements a very bare-bones version
+ of the mustache templating system (https://mustache.github.io/) to allow basic injection
+ of dynamic information before the content is displayed.
+
+ While more values can be added manually, the following tags are natively provided:
+
+ {{AppName}} - The short name of this app
+ {{AppVersion}} - The version string of this app
+ {{AppBuildNumber}} - The build number of this app.
+ {{AppCurrentYear}} - The current year
+
+*/
+
+NS_SWIFT_NAME(WebContentViewController)
 @interface TOWebContentViewController : UIViewController
 
 /** The WKWebView used to display the HTML content*/
@@ -40,8 +62,13 @@ NS_ASSUME_NONNULL_BEGIN
 /** Before any web content is displayed, this is the default background color of the view controller */
 @property (nonatomic, strong, nullable) UIColor *defaultBackgroundColor;
 
-/** If desired, set the title of the view controller to the title from the HTML content. (Default iS NO) */
+/** Once the web content is loaded, the view controller's title is set to be the same as the <title> tag. (Default is NO) */
 @property (nonatomic, assign) BOOL setsTitleFromContent;
+
+/** For local content, additional template tags that can be injected at load time.
+ For example, setting { "AppTheme" : "Dark" } -> {{AppTheme}}
+ */
+@property (nonatomic, copy, nullable) NSDictionary<NSString *, NSString *> *templateTags;
 
 /**
  Initializes and returns a new view controller object, configured to display
