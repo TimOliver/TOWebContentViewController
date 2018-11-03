@@ -14,9 +14,28 @@
 		226A3D6221736D5700806B99 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 226A3D6121736D5700806B99 /* Assets.xcassets */; };
 		226A3D6521736D5700806B99 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 226A3D6321736D5700806B99 /* LaunchScreen.storyboard */; };
 		226A3D6821736D5700806B99 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 226A3D6721736D5700806B99 /* main.m */; };
+		2273FBCB218D7E560019090A /* TOWebContentViewControllerExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2273FBCA218D7E560019090A /* TOWebContentViewControllerExampleTests.m */; };
+		2273FBEF218D7EA70019090A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2273FBEE218D7EA70019090A /* AppDelegate.swift */; };
+		2273FBF1218D7EA70019090A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2273FBF0218D7EA70019090A /* ViewController.swift */; };
+		2273FBF4218D7EA70019090A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2273FBF2218D7EA70019090A /* Main.storyboard */; };
+		2273FBF6218D7EA70019090A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2273FBF5218D7EA70019090A /* Assets.xcassets */; };
+		2273FBF9218D7EA70019090A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2273FBF7218D7EA70019090A /* LaunchScreen.storyboard */; };
+		2273FBFE218D7FDB0019090A /* HTML in Resources */ = {isa = PBXBuildFile; fileRef = 22299F4D217398A00037B185 /* HTML */; };
+		2273FBFF218D7FF50019090A /* TOWebContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D66437217F7935000DA172 /* TOWebContentViewController.m */; };
+		2273FC00218D7FFB0019090A /* TOWebContentViewControllerLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 22D6642A217F7935000DA172 /* TOWebContentViewControllerLocalizable.strings */; };
 		22D6643A217F7935000DA172 /* TOWebContentViewControllerLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 22D6642A217F7935000DA172 /* TOWebContentViewControllerLocalizable.strings */; };
 		22D6643B217F7935000DA172 /* TOWebContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D66437217F7935000DA172 /* TOWebContentViewController.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2273FBCD218D7E560019090A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 226A3D4D21736D5500806B99 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 226A3D5421736D5500806B99;
+			remoteInfo = TOWebContentViewControllerExample;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		22299F4D217398A00037B185 /* HTML */ = {isa = PBXFileReference; lastKnownFileType = folder; path = HTML; sourceTree = SOURCE_ROOT; };
@@ -28,6 +47,17 @@
 		226A3D6121736D5700806B99 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		226A3D6621736D5700806B99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		226A3D6721736D5700806B99 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2273FBC8218D7E560019090A /* TOWebContentViewControllerExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TOWebContentViewControllerExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2273FBCA218D7E560019090A /* TOWebContentViewControllerExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOWebContentViewControllerExampleTests.m; sourceTree = "<group>"; };
+		2273FBCC218D7E560019090A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2273FBEC218D7EA70019090A /* WebContentViewControllerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebContentViewControllerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2273FBEE218D7EA70019090A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2273FBF0218D7EA70019090A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		2273FBF5218D7EA70019090A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2273FBFA218D7EA70019090A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2273FC01218D80620019090A /* WebContentViewControllerExample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WebContentViewControllerExample-Bridging-Header.h"; sourceTree = "<group>"; };
+		2273FC02218D81970019090A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2273FC03218D81970019090A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 		22D6642B217F7935000DA172 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/TOWebContentViewControllerLocalizable.strings; sourceTree = "<group>"; };
 		22D6642C217F7935000DA172 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/TOWebContentViewControllerLocalizable.strings"; sourceTree = "<group>"; };
 		22D6642D217F7935000DA172 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/TOWebContentViewControllerLocalizable.strings; sourceTree = "<group>"; };
@@ -55,6 +85,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2273FBC5218D7E560019090A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2273FBE9218D7EA70019090A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -63,6 +107,8 @@
 			children = (
 				22D66429217F7935000DA172 /* TOWebContentViewController */,
 				226A3D5721736D5600806B99 /* TOWebContentViewControllerExample */,
+				2273FBC9218D7E560019090A /* TOWebContentViewControllerExampleTests */,
+				2273FBED218D7EA70019090A /* WebContentViewControllerExample */,
 				226A3D5621736D5500806B99 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,6 +117,8 @@
 			isa = PBXGroup;
 			children = (
 				226A3D5521736D5500806B99 /* TOWebContentViewControllerExample.app */,
+				2273FBC8218D7E560019090A /* TOWebContentViewControllerExampleTests.xctest */,
+				2273FBEC218D7EA70019090A /* WebContentViewControllerExample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -90,6 +138,29 @@
 				226A3D6721736D5700806B99 /* main.m */,
 			);
 			path = TOWebContentViewControllerExample;
+			sourceTree = "<group>";
+		};
+		2273FBC9218D7E560019090A /* TOWebContentViewControllerExampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				2273FBCA218D7E560019090A /* TOWebContentViewControllerExampleTests.m */,
+				2273FBCC218D7E560019090A /* Info.plist */,
+			);
+			path = TOWebContentViewControllerExampleTests;
+			sourceTree = "<group>";
+		};
+		2273FBED218D7EA70019090A /* WebContentViewControllerExample */ = {
+			isa = PBXGroup;
+			children = (
+				2273FBEE218D7EA70019090A /* AppDelegate.swift */,
+				2273FBF0218D7EA70019090A /* ViewController.swift */,
+				2273FBF2218D7EA70019090A /* Main.storyboard */,
+				2273FBF5218D7EA70019090A /* Assets.xcassets */,
+				2273FBF7218D7EA70019090A /* LaunchScreen.storyboard */,
+				2273FBFA218D7EA70019090A /* Info.plist */,
+				2273FC01218D80620019090A /* WebContentViewControllerExample-Bridging-Header.h */,
+			);
+			path = WebContentViewControllerExample;
 			sourceTree = "<group>";
 		};
 		22D66429217F7935000DA172 /* TOWebContentViewController */ = {
@@ -122,17 +193,60 @@
 			productReference = 226A3D5521736D5500806B99 /* TOWebContentViewControllerExample.app */;
 			productType = "com.apple.product-type.application";
 		};
+		2273FBC7218D7E560019090A /* TOWebContentViewControllerExampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2273FBD1218D7E560019090A /* Build configuration list for PBXNativeTarget "TOWebContentViewControllerExampleTests" */;
+			buildPhases = (
+				2273FBC4218D7E560019090A /* Sources */,
+				2273FBC5218D7E560019090A /* Frameworks */,
+				2273FBC6218D7E560019090A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2273FBCE218D7E560019090A /* PBXTargetDependency */,
+			);
+			name = TOWebContentViewControllerExampleTests;
+			productName = TOWebContentViewControllerExampleTests;
+			productReference = 2273FBC8218D7E560019090A /* TOWebContentViewControllerExampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		2273FBEB218D7EA70019090A /* WebContentViewControllerExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2273FBFB218D7EA70019090A /* Build configuration list for PBXNativeTarget "WebContentViewControllerExample" */;
+			buildPhases = (
+				2273FBE8218D7EA70019090A /* Sources */,
+				2273FBE9218D7EA70019090A /* Frameworks */,
+				2273FBEA218D7EA70019090A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WebContentViewControllerExample;
+			productName = WebContentViewControllerExample;
+			productReference = 2273FBEC218D7EA70019090A /* WebContentViewControllerExample.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		226A3D4D21736D5500806B99 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = "Tim Oliver";
 				TargetAttributes = {
 					226A3D5421736D5500806B99 = {
 						CreatedOnToolsVersion = 10.0;
+					};
+					2273FBC7218D7E560019090A = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = 226A3D5421736D5500806B99;
+					};
+					2273FBEB218D7EA70019090A = {
+						CreatedOnToolsVersion = 10.1;
 					};
 				};
 			};
@@ -161,6 +275,8 @@
 			projectRoot = "";
 			targets = (
 				226A3D5421736D5500806B99 /* TOWebContentViewControllerExample */,
+				2273FBC7218D7E560019090A /* TOWebContentViewControllerExampleTests */,
+				2273FBEB218D7EA70019090A /* WebContentViewControllerExample */,
 			);
 		};
 /* End PBXProject section */
@@ -178,6 +294,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2273FBC6218D7E560019090A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2273FBEA218D7EA70019090A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2273FBFE218D7FDB0019090A /* HTML in Resources */,
+				2273FBF9218D7EA70019090A /* LaunchScreen.storyboard in Resources */,
+				2273FC00218D7FFB0019090A /* TOWebContentViewControllerLocalizable.strings in Resources */,
+				2273FBF6218D7EA70019090A /* Assets.xcassets in Resources */,
+				2273FBF4218D7EA70019090A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -192,7 +327,33 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2273FBC4218D7E560019090A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2273FBCB218D7E560019090A /* TOWebContentViewControllerExampleTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2273FBE8218D7EA70019090A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2273FBFF218D7FF50019090A /* TOWebContentViewController.m in Sources */,
+				2273FBF1218D7EA70019090A /* ViewController.swift in Sources */,
+				2273FBEF218D7EA70019090A /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2273FBCE218D7E560019090A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 226A3D5421736D5500806B99 /* TOWebContentViewControllerExample */;
+			targetProxy = 2273FBCD218D7E560019090A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		226A3D5E21736D5600806B99 /* Main.storyboard */ = {
@@ -207,6 +368,22 @@
 			isa = PBXVariantGroup;
 			children = (
 				22D6643D217F7C9F000DA172 /* en */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		2273FBF2218D7EA70019090A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2273FC03218D81970019090A /* en */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		2273FBF7218D7EA70019090A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2273FC02218D81970019090A /* en */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -384,6 +561,90 @@
 			};
 			name = Release;
 		};
+		2273FBCF218D7E560019090A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6LF3GMKZAB;
+				INFOPLIST_FILE = TOWebContentViewControllerExampleTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = net.timoliver.TOWebContentViewControllerExampleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TOWebContentViewControllerExample.app/TOWebContentViewControllerExample";
+			};
+			name = Debug;
+		};
+		2273FBD0218D7E560019090A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6LF3GMKZAB;
+				INFOPLIST_FILE = TOWebContentViewControllerExampleTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = net.timoliver.TOWebContentViewControllerExampleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TOWebContentViewControllerExample.app/TOWebContentViewControllerExample";
+			};
+			name = Release;
+		};
+		2273FBFC218D7EA70019090A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6LF3GMKZAB;
+				INFOPLIST_FILE = WebContentViewControllerExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = net.timoliver.WebContentViewControllerExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/WebContentViewControllerExample/WebContentViewControllerExample-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2273FBFD218D7EA70019090A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6LF3GMKZAB;
+				INFOPLIST_FILE = WebContentViewControllerExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = net.timoliver.WebContentViewControllerExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/WebContentViewControllerExample/WebContentViewControllerExample-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -401,6 +662,24 @@
 			buildConfigurations = (
 				226A3D6C21736D5700806B99 /* Debug */,
 				226A3D6D21736D5700806B99 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2273FBD1218D7E560019090A /* Build configuration list for PBXNativeTarget "TOWebContentViewControllerExampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2273FBCF218D7E560019090A /* Debug */,
+				2273FBD0218D7E560019090A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2273FBFB218D7EA70019090A /* Build configuration list for PBXNativeTarget "WebContentViewControllerExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2273FBFC218D7EA70019090A /* Debug */,
+				2273FBFD218D7EA70019090A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
