@@ -1,5 +1,5 @@
-"TOWebContentViewController.Share.OpenIn" = "Open in %@";
-"TOWebContentViewController.Share.ShowWebPage" = "Show Web Page";
-"TOWebContentViewController.Share.CopyLink" = "Copy Link";
-"TOWebContentViewController.Share.Copy" = "Copy";
+"TOWebContentViewController.Share.OpenIn" = "%@에서 열기";
+"TOWebContentViewController.Share.ShowWebPage" = "웹 페이지 보기";
+"TOWebContentViewController.Share.CopyLink" = "링크 복사하기";
+"TOWebContentViewController.Share.Copy" = "복사하기";
 "TOWebContentViewController.Share.Cancel" = "취소";

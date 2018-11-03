@@ -1,6 +1,8 @@
-"TOWebContentViewController.Share.OpenIn" = "Open in %@";
-"TOWebContentViewController.Share.ShowWebPage" = "Show Web Page";
-"TOWebContentViewController.Share.CopyLink" = "Copy Link";
-"TOWebContentViewController.Share.Copy" = "Copy";
+"TOWebContentViewController.Share.OpenIn" = "在“%@”裡打開";
+"TOWebContentViewController.Share.ShowWebPage" = "顯示網頁";
+"TOWebContentViewController.Share.CopyLink" = "拷貝連結";
+
+"TOWebContentViewController.Share.Copy" = "拷貝";
+
 "TOWebContentViewController.Share.Cancel"  = "取消";
 

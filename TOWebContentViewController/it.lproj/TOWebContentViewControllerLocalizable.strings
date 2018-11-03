@@ -1,5 +1,5 @@
-"TOWebContentViewController.Share.OpenIn" = "Open in %@";
-"TOWebContentViewController.Share.ShowWebPage" = "Show Web Page";
-"TOWebContentViewController.Share.CopyLink" = "Copy Link";
-"TOWebContentViewController.Share.Copy" = "Copy";
+"TOWebContentViewController.Share.OpenIn" = "Apri in %@";
+"TOWebContentViewController.Share.ShowWebPage" = "Mostra pagina web";
+"TOWebContentViewController.Share.CopyLink" = "Copia link";
+"TOWebContentViewController.Share.Copy" = "Copia";
 "TOWebContentViewController.Share.Cancel" = "Annulla";

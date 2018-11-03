@@ -1,5 +1,5 @@
-"TOWebContentViewController.Share.OpenIn" = "Open in %@";
-"TOWebContentViewController.Share.ShowWebPage" = "Show Web Page";
-"TOWebContentViewController.Share.CopyLink" = "Copy Link";
-"TOWebContentViewController.Share.Copy" = "Copy";
+"TOWebContentViewController.Share.OpenIn" = "%@で開く";
+"TOWebContentViewController.Share.ShowWebPage" = "ページを表示";
+"TOWebContentViewController.Share.CopyLink" = "リンクをコピー";
+"TOWebContentViewController.Share.Copy" = "コピー";
 "TOWebContentViewController.Share.Cancel" = "キャンセル";
