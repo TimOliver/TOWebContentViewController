@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "TOWebContentViewController.h"
 
-@interface ViewController ()
+@interface ViewController () <TOWebContentViewControllerDelegate>
 
 @end
 
@@ -28,6 +28,7 @@
     NSURL *fileURL = [baseURL URLByAppendingPathComponent:@"about.html"];
 
     TOWebContentViewController *webContentController = [[TOWebContentViewController alloc] initWithFileURL:fileURL baseURL:baseURL];
+    webContentController.delegate = self;
     webContentController.templateTags = @{@"AppName" : @"iComics"};
     webContentController.setsTitleFromContent = YES;
 

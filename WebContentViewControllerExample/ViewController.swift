@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, WebContentViewControllerDelegate {
 
     @IBAction func didTapLocalButton(sender: AnyObject) {
         // Get resources folder URL
@@ -19,6 +19,7 @@ class ViewController: UIViewController {
         let webContentController = WebContentViewController(fileURL: fileURL, baseURL: baseURL)
         webContentController.templateTags = ["AppName": "iComics"]
         webContentController.setsTitleFromContent = true
+        webContentController.delegate = self;
 
         let navigationController = UINavigationController(rootViewController: webContentController)
         navigationController.navigationBar.barStyle = .black

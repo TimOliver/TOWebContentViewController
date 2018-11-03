@@ -23,8 +23,30 @@
 #import <UIKit/UIKit.h>
 
 @class WKWebView;
+@class TOWebContentViewController;
 
 NS_ASSUME_NONNULL_BEGIN
+
+NS_SWIFT_NAME(WebContentViewControllerDelegate)
+@protocol TOWebContentViewControllerDelegate <NSObject>
+
+@optional
+/**
+ Whenever a link is tapped in the web content view controller, this gives the
+ delegate an opportunity to intercept that link and perform any desired
+ custom logic in response. For example, a link URL such as "myapp://"
+ could be used to trigger a transition to a different view controller.
+
+ @param webContentViewController The web content view controller that triggered the delegate
+ @param URL The complete URL of the link that was tapped
+ @param tapPoint If needed the coordinates of where the link was tapped in the view controller space.
+ @return Return NO if the view controller should perform its default behaviour, or YES if the app handled the URL.
+ */
+- (BOOL)webContentViewController:(TOWebContentViewController *)webContentViewController
+             performActionForURL:(NSURL *)URL
+                   tappedAtPoint:(CGPoint)tapPoint;
+
+@end
 
 /**
  `TOWebContentViewController` is a view controller for displaying arbitrary
@@ -49,6 +71,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(WebContentViewController)
 @interface TOWebContentViewController : UIViewController
+
+/** A delegate object that can respond to user-triggered actions in the web content view controller */
+@property (nonatomic, weak, nullable) id<TOWebContentViewControllerDelegate> delegate;
 
 /** The WKWebView used to display the HTML content*/
 @property (nonatomic, strong, readonly) WKWebView *webView;

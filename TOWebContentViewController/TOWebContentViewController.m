@@ -387,6 +387,13 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
     NSURL *URL = navigationAction.request.URL;
     if (URL == nil) { return; }
 
+    // If the delegate was set, see if it wants to handle this particular URL
+    if (self.delegate && [self.delegate respondsToSelector:@selector(webContentViewController:performActionForURL:tappedAtPoint:)]) {
+        if ([self.delegate webContentViewController:self performActionForURL:URL tappedAtPoint:self.lastTappedPoint]) {
+            return;
+        }
+    }
+
     // Depend on the scheme, perform a variety of default actions
     NSString *scheme = URL.scheme.lowercaseString;
 
