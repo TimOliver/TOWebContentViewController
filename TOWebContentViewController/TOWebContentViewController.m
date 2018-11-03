@@ -542,6 +542,7 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
 
     if (self.viewLoaded) {
         self.view.backgroundColor = _defaultBackgroundColor;
+        self.loadingBackgroundView.backgroundColor = _defaultBackgroundColor;
         [self updateActivityIndicatorForBackgroundColor];
     }
 }
