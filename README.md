@@ -14,11 +14,9 @@
 
 `TOWebContentViewController` is a class built to allow fast presentation of HTML, either from a local file or online. 
 
-It is not meant to be an  web browser, but more to display specific information inside the app, where spending the resources to implement an equivalent native UI wouldn't be worth it.
+It is not meant to be a web browser, but more to display specific information inside the app, where spending the resources to implement an equivalent native UI wouldn't be worth it. For example, displaying a privacy policy, or a list of open-source acknowledgements.
 
-In a lot of apps, it is usually necessary to show large blocks of text with some sort of styling or formatting. Things like privacy policies, or open source acknowledgements. These things don't make a lot of sense to render natively, especially when an HTML page will do the trick just fine. The goal of this library is to create an easily re-usable container for showing that sort of content.
-
-The view controller also features several extra niceties, such as being able to dynamically pre-set the background color, and using the [[mustache]](https://mustache.github.io/) templating system to dynamically inject information.
+The view controller also features several extra niceties, such as being able to dynamically pre-set the background color, and using the [mustache](https://mustache.github.io/) templating system to dynamically inject information.
 
 ## Features
 
