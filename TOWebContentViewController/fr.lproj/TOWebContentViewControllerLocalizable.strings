@@ -2,4 +2,4 @@
 "TOWebContentViewController.Share.ShowWebPage" = "Afficher la page web";
 "TOWebContentViewController.Share.CopyLink" = "Copier le lien";
 "TOWebContentViewController.Share.Copy" = "Copier";
-
+"TOWebContentViewController.Share.Cancel" = "Annuler";
