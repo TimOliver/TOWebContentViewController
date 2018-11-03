@@ -23,6 +23,7 @@
 		2273FBFE218D7FDB0019090A /* HTML in Resources */ = {isa = PBXBuildFile; fileRef = 22299F4D217398A00037B185 /* HTML */; };
 		2273FBFF218D7FF50019090A /* TOWebContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D66437217F7935000DA172 /* TOWebContentViewController.m */; };
 		2273FC00218D7FFB0019090A /* TOWebContentViewControllerLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 22D6642A217F7935000DA172 /* TOWebContentViewControllerLocalizable.strings */; };
+		2273FC04218D840B0019090A /* TOWebContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D66437217F7935000DA172 /* TOWebContentViewController.m */; };
 		22D6643A217F7935000DA172 /* TOWebContentViewControllerLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 22D6642A217F7935000DA172 /* TOWebContentViewControllerLocalizable.strings */; };
 		22D6643B217F7935000DA172 /* TOWebContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D66437217F7935000DA172 /* TOWebContentViewController.m */; };
 /* End PBXBuildFile section */
@@ -331,6 +332,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2273FC04218D840B0019090A /* TOWebContentViewController.m in Sources */,
 				2273FBCB218D7E560019090A /* TOWebContentViewControllerExampleTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
