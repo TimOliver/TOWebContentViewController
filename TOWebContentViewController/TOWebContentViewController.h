@@ -125,9 +125,6 @@ NS_SWIFT_NAME(WebContentViewController)
  */
 - (instancetype)initWithURL:(NSURL *)URL;
 
-// :nodoc:
-- (instancetype)init NS_UNAVAILABLE;
-
 @end
 
 NS_ASSUME_NONNULL_END
