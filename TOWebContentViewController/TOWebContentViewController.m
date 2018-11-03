@@ -114,9 +114,6 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
     self.loadingBackgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.loadingBackgroundView];
     [self.loadingBackgroundView addSubview:self.activityIndicator];
-
-    // Create a dictionary of default template values
-    [self createTemplateDictionary];
 }
 
 - (void)createTemplateDictionary
@@ -176,6 +173,10 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
 
 - (NSString *)HTMLStringWithTemplateTagsForHTMLString:(NSString *)htmlString
 {
+    // Create a dictionary of default template values
+    [self createTemplateDictionary];
+
+    // Merge the default templates with the user specified ones
     NSMutableDictionary *templateTags = self.defaultTemplateTags.mutableCopy;
     if (self.templateTags) { [templateTags addEntriesFromDictionary:self.templateTags]; }
 
