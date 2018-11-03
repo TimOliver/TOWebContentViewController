@@ -210,7 +210,7 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
         NSInteger startIndex = tagRange.location;
 
         // Search for the ending '}}'
-        tagRange.length = kTOWebContentMaximumTagLength;
+        tagRange.length = MIN(kTOWebContentMaximumTagLength, string.length - tagRange.location);
         tagRange = [string rangeOfString:kTOWebContentTemplateCloseTag options:NSLiteralSearch range:tagRange];
         if (tagRange.location == NSNotFound) {
             @throw [NSException exceptionWithName:@"InconsistencyException"
@@ -234,7 +234,7 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
         string = [string stringByReplacingCharactersInRange:replaceRange withString:tagValue];
 
         // Increment the search range for next iteration
-        searchRange.location = tagRange.location + 2;
+        searchRange.location = replaceRange.location + tagValue.length;
     }
 
     return string;
@@ -449,7 +449,10 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
                 [UIApplication.sharedApplication openURL:URL options:@{} completionHandler:nil];
             }
             else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 [UIApplication.sharedApplication openURL:URL];
+#pragma clang diagnostic pop
             }
         }];
         [actions addObject:appLinkAction];

@@ -9,19 +9,15 @@
 #import <XCTest/XCTest.h>
 #import "TOWebContentViewController.h"
 
+@interface TOWebContentViewController ()
+- (NSString *)HTMLStringWithTemplateTagsForHTMLString:(NSString *)htmlString;
+@end
+
 @interface TOWebContentViewControllerExampleTests : XCTestCase
 
 @end
 
 @implementation TOWebContentViewControllerExampleTests
-
-- (void)setUp {
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-}
-
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-}
 
 - (void)testViewControllerCreation
 {
@@ -29,6 +25,29 @@
     TOWebContentViewController *vc = [[TOWebContentViewController alloc] initWithHTMLString:testHTML baseURL:nil];
     UIView *view = vc.view;
     XCTAssertNotNil(view);
+}
+
+- (void)testBackgroundColorDetection
+{
+    NSString *testHTML = @"<html><body data-bgcolor=\"#000000\"></body</html>";
+    TOWebContentViewController *vc = [[TOWebContentViewController alloc] initWithHTMLString:testHTML baseURL:nil];
+    [vc viewWillAppear:YES];
+    UIColor *backgroundColor = vc.view.backgroundColor;
+
+    CGFloat whiteValue = 1.0f;
+    [backgroundColor getWhite:&whiteValue alpha:NULL];
+
+    XCTAssert(whiteValue < FLT_EPSILON);
+}
+
+- (void)testTagDetection
+{
+    NSString *testHTML = @"<html><body>{{Greeting}}{{Greeting}}</body</html>";
+    NSString *expectedHTML = @"<html><body>Hello World!Hello World!</body</html>";
+    TOWebContentViewController *vc = [[TOWebContentViewController alloc] initWithHTMLString:testHTML baseURL:nil];
+    vc.templateTags = @{@"Greeting" : @"Hello World!"};
+    NSString *html = [vc HTMLStringWithTemplateTagsForHTMLString:testHTML];
+    XCTAssertTrue([expectedHTML isEqualToString:html]);
 }
 
 @end
