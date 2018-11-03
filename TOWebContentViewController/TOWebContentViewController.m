@@ -40,6 +40,7 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 
 // Content Information
+@property (nonatomic, strong) NSString *htmlString;      // A local HTML string
 @property (nonatomic, strong, readwrite) NSURL *URL;     // The original URL shown
 @property (nonatomic, strong, readwrite) NSURL *baseURL; // Local files base URL
 
@@ -71,6 +72,17 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
     if (self = [super init]) {
         _isLocalFile = YES;
         _URL = fileURL;
+        _baseURL = baseURL;
+    }
+
+    return self;
+}
+
+- (instancetype)initWithHTMLString:(NSString *)htmlString baseURL:(nullable NSURL *)baseURL
+{
+    if (self = [super init]) {
+        _isLocalFile = YES;
+        _htmlString = htmlString;
         _baseURL = baseURL;
     }
 
@@ -140,7 +152,11 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
     if (self.isLocalFile) {
         // Load the HTML from disk, and then pass it to the web view
         @autoreleasepool {
-            NSString *fileData = [NSString stringWithContentsOfURL:self.URL encoding:NSUTF8StringEncoding error:nil];
+            NSString *fileData = self.htmlString;
+            if (self.URL) {
+                fileData = [NSString stringWithContentsOfURL:self.URL encoding:NSUTF8StringEncoding error:nil];
+            }
+
             [self setBackgroundColorForHTMLString:fileData];
             [self injectTagTemplateValuesIntoHTMLString:fileData completion:^(NSString *htmlData) {
                 [self.webView loadHTMLString:htmlData baseURL:self.baseURL];
@@ -428,7 +444,13 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
 
         // Configure the action with both
         UIAlertAction *appLinkAction = [UIAlertAction actionWithTitle:openInTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [UIApplication.sharedApplication openURL:[NSURL URLWithString:actionURLString]];
+            NSURL *URL = [NSURL URLWithString:actionURLString];
+            if (@available(iOS 10.0, *)) {
+                [UIApplication.sharedApplication openURL:URL options:@{} completionHandler:nil];
+            }
+            else {
+                [UIApplication.sharedApplication openURL:URL];
+            }
         }];
         [actions addObject:appLinkAction];
     }

@@ -80,6 +80,17 @@ NS_SWIFT_NAME(WebContentViewController)
  */
 - (instancetype)initWithFileURL:(NSURL *)fileURL baseURL:(NSURL *)baseURL;
 
+
+/**
+ Initializes and returns a new view controller object, configured to display
+ content from a pre-loaded HTML string.
+
+ @param htmlString The HTML string to display
+ @param baseURL If needed, a base URL to use for relative file paths.
+ @return A new instance of `TOWebContentViewController`.
+ */
+- (instancetype)initWithHTMLString:(NSString *)htmlString baseURL:(nullable NSURL *)baseURL;
+
 /**
  Initializes and returns a new view controller object, configured to display
  HTML content from an online URL.
