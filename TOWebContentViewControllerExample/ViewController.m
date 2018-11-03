@@ -53,6 +53,13 @@
     [self presentViewController:navigationController animated:YES completion:nil];
 }
 
+#pragma mark - Delegate -
+- (BOOL)webContentViewController:(TOWebContentViewController *)webContentViewController performActionForURL:(NSURL *)URL tappedAtPoint:(CGPoint)tapPoint
+{
+    NSLog(@"URL %@, point: %@", URL, NSStringFromCGPoint(tapPoint));
+    return NO;
+}
+
 - (IBAction)webContentViewControllerDone:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
