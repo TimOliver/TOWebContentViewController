@@ -13,11 +13,11 @@
 - (NSString *)HTMLStringWithTemplateTagsForHTMLString:(NSString *)htmlString;
 @end
 
-@interface TOWebContentViewControllerExampleTests : XCTestCase
+@interface TOWebContentViewControllerTests : XCTestCase
 
 @end
 
-@implementation TOWebContentViewControllerExampleTests
+@implementation TOWebContentViewControllerTests
 
 - (void)testViewControllerCreation
 {
