@@ -376,7 +376,7 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
-    // When loading local files, wait until the who file has loaded before displaying
+    // When loading local files, wait until the whole file has loaded before displaying
     if (!self.isLocalFile) { return; }
     [self transitionToWebView];
 }
