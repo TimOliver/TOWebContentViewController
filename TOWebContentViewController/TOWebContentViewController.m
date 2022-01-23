@@ -20,7 +20,6 @@
 //  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 //  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
 #import "TOWebContentViewController.h"
 
 #import <WebKit/WebKit.h>
@@ -98,24 +97,30 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
     
     // Set up the webview
     self.webView = [[WKWebView alloc] initWithFrame:self.view.bounds];
-    self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth
+                                    | UIViewAutoresizingFlexibleHeight;
     self.webView.navigationDelegate = self;
     self.webView.opaque = NO;
     self.webView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.webView];
 
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized:)];
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                    action:@selector(tapRecognized:)];
     tapRecognizer.delegate = self;
     [self.webView.scrollView addGestureRecognizer:tapRecognizer];
 
     // Add the observer for the title if it was set before we were presented
     if (self.setsTitleFromContent) {
-        [self.webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
+        [self.webView addObserver:self forKeyPath:@"title"
+                          options:NSKeyValueObservingOptionNew
+                          context:nil];
     }
 
     // Set up the activity indicator
-    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    self.activityIndicator.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin |
+    UIActivityIndicatorViewStyle style = UIActivityIndicatorViewStyleWhiteLarge;
+    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
+    self.activityIndicator.autoresizingMask = UIViewAutoresizingFlexibleTopMargin
+                                                | UIViewAutoresizingFlexibleLeftMargin |
     UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
     self.activityIndicator.center = self.view.center;
     self.activityIndicator.hidesWhenStopped = YES;
@@ -123,7 +128,8 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
     // Set up the background view which will be overlaid on top of the web view
     self.loadingBackgroundView = [[UIView alloc] initWithFrame:self.view.bounds];
     self.loadingBackgroundView.backgroundColor = self.view.backgroundColor;
-    self.loadingBackgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.loadingBackgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth
+                                                    | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.loadingBackgroundView];
     [self.loadingBackgroundView addSubview:self.activityIndicator];
 }
@@ -154,11 +160,13 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
         @autoreleasepool {
             NSString *fileData = self.htmlString;
             if (self.URL) {
-                fileData = [NSString stringWithContentsOfURL:self.URL encoding:NSUTF8StringEncoding error:nil];
+                fileData = [NSString stringWithContentsOfURL:self.URL
+                                                    encoding:NSUTF8StringEncoding error:nil];
             }
 
             [self setBackgroundColorForHTMLString:fileData];
-            [self injectTagTemplateValuesIntoHTMLString:fileData completion:^(NSString *htmlData) {
+            [self injectTagTemplateValuesIntoHTMLString:fileData
+                                             completion:^(NSString *htmlData) {
                 [self.webView loadHTMLString:htmlData baseURL:self.baseURL];
             }];
         }
@@ -204,14 +212,17 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
         searchRange.length = string.length - searchRange.location;
 
         //Search for '{{'
-        NSRange tagRange = [string rangeOfString:kTOWebContentTemplateOpenTag options:NSLiteralSearch range:searchRange];
+        NSRange tagRange = [string rangeOfString:kTOWebContentTemplateOpenTag
+                                         options:NSLiteralSearch
+                                           range:searchRange];
         if (tagRange.location == NSNotFound) { break; } // If not found, break out of the loop
 
         NSInteger startIndex = tagRange.location;
 
         // Search for the ending '}}'
         tagRange.length = MIN(kTOWebContentMaximumTagLength, string.length - tagRange.location);
-        tagRange = [string rangeOfString:kTOWebContentTemplateCloseTag options:NSLiteralSearch range:tagRange];
+        tagRange = [string rangeOfString:kTOWebContentTemplateCloseTag
+                                 options:NSLiteralSearch range:tagRange];
         if (tagRange.location == NSNotFound) {
             @throw [NSException exceptionWithName:@"InconsistencyException"
                                            reason:@"Closing }} tag not found. Tags must be <= 32 characters"
@@ -256,7 +267,10 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
 
 #pragma mark - View Management -
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary<NSKeyValueChangeKey,id> *)change
+                       context:(void *)context
 {
     if (object != self.webView) { return; }
 
@@ -313,7 +327,8 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
     }
 
     // Convert the string to a UIColor
-    NSString *hexString = [NSString stringWithCString:(const char *)hexArray encoding:NSUTF8StringEncoding];
+    NSString *hexString = [NSString stringWithCString:(const char *)hexArray
+                                             encoding:NSUTF8StringEncoding];
     UIColor *color = [self colorForHexString:hexString];
     if (!color) { return; }
 
@@ -352,7 +367,9 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
 }
 
 #pragma mark - Navigation Delegate -
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
+- (void)webView:(WKWebView *)webView
+decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
+decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
     if (navigationAction.navigationType == WKNavigationTypeOther) {
         decisionHandler(WKNavigationActionPolicyAllow);
@@ -404,15 +421,21 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
     else if ([scheme isEqualToString:@"twitter"]) {
         NSDictionary *twitterSchemes = @{ @"Tweetbot": @"tweetbot:///user_profile/%@",
                                           @"Twitter": @"twitter://user?screen_name=%@" };
-        [self presentSocialMediaAccountSheetWithHost:@"twitter.com" userHandle:URL.host appSchemes:twitterSchemes];
+        [self presentSocialMediaAccountSheetWithHost:@"twitter.com"
+                                          userHandle:URL.host
+                                          appSchemes:twitterSchemes];
     }
     else if ([scheme isEqualToString:@"facebook"]) {
         NSDictionary *facebookScheme = @{ @"Facebook": @"fb://profile/%@" };
-        [self presentSocialMediaAccountSheetWithHost:@"facebook.com" userHandle:URL.host appSchemes:facebookScheme];
+        [self presentSocialMediaAccountSheetWithHost:@"facebook.com"
+                                          userHandle:URL.host
+                                          appSchemes:facebookScheme];
     }
     else if ([scheme isEqualToString:@"instagram"]) {
         NSDictionary *instagramScheme = @{ @"Instagram": @"instagram://user?username=%@" };
-        [self presentSocialMediaAccountSheetWithHost:@"instagram.com" userHandle:URL.host appSchemes:instagramScheme];
+        [self presentSocialMediaAccountSheetWithHost:@"instagram.com"
+                                          userHandle:URL.host
+                                          appSchemes:instagramScheme];
     }
 }
 
@@ -429,7 +452,9 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
     [self presentActionViewControllerWithTitle:URL.absoluteString actions:actions];
 }
 
-- (void)presentSocialMediaAccountSheetWithHost:(NSString *)host userHandle:(NSString *)handle appSchemes:(NSDictionary<NSString *, NSString *> *)schemes
+- (void)presentSocialMediaAccountSheetWithHost:(NSString *)host
+                                    userHandle:(NSString *)handle
+                                    appSchemes:(NSDictionary<NSString *, NSString *> *)schemes
 {
     NSBundle *resourceBundle = self.resourceBundle;
     NSString *URLString = [NSString stringWithFormat:@"https://%@/%@", host, handle];
@@ -446,11 +471,15 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
         if ([UIApplication.sharedApplication canOpenURL:actionURL] == NO) { continue; }
 
         // Generate the 'Open In' string
-        NSString *openInTemplate = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.OpenIn", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
+        NSString *openInTemplate = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.OpenIn",
+                                                                      @"TOWebContentViewControllerLocalizable",
+                                                                      resourceBundle, @"");
         NSString *openInTitle = [NSString stringWithFormat:openInTemplate, appName];
 
         // Configure the action with both
-        UIAlertAction *appLinkAction = [UIAlertAction actionWithTitle:openInTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        UIAlertAction *appLinkAction = [UIAlertAction actionWithTitle:openInTitle
+                                                                style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction *action) {
             NSURL *URL = [NSURL URLWithString:actionURLString];
             if (@available(iOS 10.0, *)) {
                 [UIApplication.sharedApplication openURL:URL options:@{} completionHandler:nil];
@@ -478,15 +507,23 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
     NSMutableArray *actions = [NSMutableArray array];
 
     // Show the 'Open in Web' button
-    NSString *showPageTitle = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.ShowWebPage", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
-    UIAlertAction *openLinkAction = [UIAlertAction actionWithTitle:showPageTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    NSString *showPageTitle = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.ShowWebPage",
+                                                                 @"TOWebContentViewControllerLocalizable",
+                                                                 resourceBundle, @"");
+    UIAlertAction *openLinkAction = [UIAlertAction actionWithTitle:showPageTitle
+                                                             style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction *action) {
         [self presentWebViewControllerForURL:URL];
     }];
     [actions addObject:openLinkAction];
 
     // Show the copy link action
-    NSString *copyLinkTitle = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.CopyLink", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
-    UIAlertAction *copyLinkAction = [UIAlertAction actionWithTitle:copyLinkTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    NSString *copyLinkTitle = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.CopyLink",
+                                                                 @"TOWebContentViewControllerLocalizable",
+                                                                 resourceBundle, @"");
+    UIAlertAction *copyLinkAction = [UIAlertAction actionWithTitle:copyLinkTitle
+                                                             style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction *action) {
         UIPasteboard.generalPasteboard.string = URL.absoluteString;
     }];
     [actions addObject:copyLinkAction];
@@ -501,7 +538,9 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
     CGPoint tapPoint = self.lastTappedPoint;
     CGRect tapRect = (CGRect){tapPoint, {1,1}};
 
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleActionSheet];
     alertController.modalPresentationStyle = UIModalPresentationPopover;
 
     // Add each action to the sheet
@@ -510,7 +549,9 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
     }
 
     // Add a cancel button for all cases
-    title = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.Cancel", @"TOWebContentViewControllerLocalizable", resourceBundle, @"");
+    title = NSLocalizedStringFromTableInBundle(@"TOWebContentViewController.Share.Cancel",
+                                               @"TOWebContentViewControllerLocalizable",
+                                               resourceBundle, @"");
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:title
                                                            style:UIAlertActionStyleCancel
                                                          handler:nil];
@@ -529,7 +570,8 @@ NSInteger const kTOWebContentMaximumTagLength = 36;
     self.lastTappedPoint = [recognizer locationInView:self.view];
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
+shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;
 }

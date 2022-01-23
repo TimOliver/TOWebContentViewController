@@ -103,8 +103,8 @@ NS_SWIFT_NAME(WebContentViewController)
  @param baseURL The file path to the directory that will be used for all relative file references.
  @return A new instance of `TOWebContentViewController`.
  */
-- (instancetype)initWithFileURL:(NSURL *)fileURL baseURL:(NSURL *)baseURL;
-
+- (instancetype)initWithFileURL:(NSURL *)fileURL
+                        baseURL:(NSURL *)baseURL;
 
 /**
  Initializes and returns a new view controller object, configured to display
@@ -114,7 +114,8 @@ NS_SWIFT_NAME(WebContentViewController)
  @param baseURL If needed, a base URL to use for relative file paths.
  @return A new instance of `TOWebContentViewController`.
  */
-- (instancetype)initWithHTMLString:(NSString *)htmlString baseURL:(nullable NSURL *)baseURL;
+- (instancetype)initWithHTMLString:(NSString *)htmlString
+                           baseURL:(nullable NSURL *)baseURL;
 
 /**
  Initializes and returns a new view controller object, configured to display
